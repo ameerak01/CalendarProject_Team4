@@ -18,7 +18,8 @@
             android:value="@integer/google_play_services_version" />
 
         <activity android:name=".CalendarMain2" />
-        <activity android:name=".AddEvent"></activity>
+        <activity android:name=".AddEvent" />
+        <activity android:name=".ShareEvent"></activity>
     </application>
 
 </manifest>
