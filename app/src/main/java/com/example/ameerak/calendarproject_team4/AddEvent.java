@@ -20,9 +20,9 @@ public class AddEvent extends AppCompatActivity {
         setContentView(R.layout.activity_add_event);
 
         Calendar c = Calendar.getInstance();
-        SimpleDateFormat ss = new SimpleDateFormat("dd-MM-yyyy");
+        //SimpleDateFormat ss = new SimpleDateFormat("dd-MM-yyyy");
         DatePicker datepick = (DatePicker) this.findViewById(R.id.datePicker_main);;
-        String dateString= ss.format(datepick);
+        //String dateString= ss.format(datepick);
         TextView editText = (TextView) this.findViewById(R.id.date_editText);
         // To set the text as the date like MM/DD/YEAR
         editText.setText(datepick.getMonth() + "/" + datepick.getDayOfMonth() + "/" + datepick.getYear());
