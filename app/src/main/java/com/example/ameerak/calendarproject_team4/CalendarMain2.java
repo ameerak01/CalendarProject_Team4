@@ -10,6 +10,4 @@ public class CalendarMain2 extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_calendar_main2);
     }
-
-    //test
 }
