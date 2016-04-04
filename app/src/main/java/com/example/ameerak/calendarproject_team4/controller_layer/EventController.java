@@ -26,6 +26,7 @@ public class EventController {
     }
 
     // Returns a LinkedList of events pertaining to specified date or null if no events for specified date exist
+    // months go from 0-11, so if you wanted list for events on April 4, 2016 you call: eventController.getEvents(2016, 3, 4);
     public LinkedList<Event> getEvents(int year, int month, int day) {
         return mEventList.getEvents(mEventList.createDateKey(year, month, day));
     }
