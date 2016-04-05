@@ -12,13 +12,6 @@ public class EventList {
 
     private static EventList sEventList;
 
-    /* How Events Are Stored Within mEvents
-    *
-    *  mEvents uses String keys with the following formatted form
-    *  ex. Jan. 1, 2016 would be formatted as "01 01 2016"
-    *
-    *  Each key contains a LinkedList<Event>
-    * */
     private Hashtable<String, LinkedList<Event>> mEvents;
 
     public static EventList get() {
@@ -32,8 +25,6 @@ public class EventList {
         mEvents = new Hashtable<>();
     }
 
-
-    // Retrieves event list (sorted by event time) associated with specified date
     public LinkedList<Event> getEvents(String dateKey) {
         return mEvents.get(dateKey);
     }
@@ -41,7 +32,6 @@ public class EventList {
     public void addEvent(Event event) {
         LinkedList<Event> eventList = getEvents(event.getDateKey());
 
-        // If no events exist for specified date, create new key, value pair
         if (eventList == null) {
             eventList = new LinkedList<>();
             eventList.add(event);

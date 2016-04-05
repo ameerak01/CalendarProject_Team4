@@ -3,16 +3,17 @@ package com.example.ameerak.calendarproject_team4.business_objects_layer;
 
 import android.support.annotation.NonNull;
 
+import java.io.Serializable;
 import java.text.SimpleDateFormat;
 import java.util.GregorianCalendar;
 import java.util.UUID;
 
-public class Event implements Comparable<Event> {
+public class Event implements Serializable, Comparable<Event> {
 
     private UUID mEventId;
     private String mTitle;
     private GregorianCalendar mCalendar;
-    private GregorianCalendar mOutdatedCalendar; // Used for updating purposes within EventList
+    private GregorianCalendar mOutdatedCalendar; // For updating purposes within EventList
     private String mLocation;
     private String mDescription;
 
@@ -34,16 +35,18 @@ public class Event implements Comparable<Event> {
         return mEventId;
     }
 
-    @SuppressWarnings("all")
     public String getDateKey() {
-        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("LL dd yyyy");
-        return simpleDateFormat.format(getCalendar().getTime());
+        return createDateKey(mCalendar);
+    }
+
+    public String getOldDateKey() {
+        return createDateKey(mOutdatedCalendar);
     }
 
     @SuppressWarnings("all")
-    public String getOldDateKey() {
+    private String createDateKey(GregorianCalendar calendar) {
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat("LL dd yyyy");
-        return simpleDateFormat.format(getOutdatedCalendar().getTime());
+        return simpleDateFormat.format(calendar.getTime());
     }
 
     public String getTitle() {
@@ -77,9 +80,5 @@ public class Event implements Comparable<Event> {
 
     public void setDescription(String description) {
         mDescription = description;
-    }
-
-    public GregorianCalendar getOutdatedCalendar() {
-        return mOutdatedCalendar;
     }
 }
