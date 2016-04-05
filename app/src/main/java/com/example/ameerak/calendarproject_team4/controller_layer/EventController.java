@@ -42,6 +42,6 @@ public class EventController {
     }
 
     public void deleteEvent(UUID eventId) { 
-        mEventList.removeEvent(eventId);
+        mEventList.deleteEvent(eventId);
     }
 }
