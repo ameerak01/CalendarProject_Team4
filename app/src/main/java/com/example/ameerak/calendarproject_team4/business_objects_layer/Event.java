@@ -12,41 +12,44 @@ public class Event implements Serializable, Comparable<Event> {
 
     private UUID mEventId;
     private String mTitle;
-    private GregorianCalendar mCalendar;
-    private GregorianCalendar mOutdatedCalendar; // For updating purposes within EventList
+    private GregorianCalendar mEventStartTime;
+    private GregorianCalendar mOutdatedStartTime; // For updating purposes within EventList
+    private GregorianCalendar mEventEndTime;
     private String mLocation;
     private String mDescription;
 
-    public Event(String title, GregorianCalendar calendar, String location, String description) {
+    public Event(String title, GregorianCalendar calendar, GregorianCalendar eventEndTime,
+                 String location, String description) {
         mEventId = UUID.randomUUID();
         mTitle = title;
-        mCalendar = calendar;
+        mEventStartTime = calendar;
+        mEventEndTime = eventEndTime;
         mLocation = location;
         mDescription = description;
-        mOutdatedCalendar = calendar;
+        mOutdatedStartTime = calendar;
     }
 
     @Override
     public int compareTo(@NonNull Event otherEvent) {
-        return getCalendar().compareTo(otherEvent.getCalendar());
-    }
-
-    public UUID getEventId() {
-        return mEventId;
+        return getEventStartTime().compareTo(otherEvent.getEventStartTime());
     }
 
     public String getDateKey() {
-        return createDateKey(mCalendar);
+        return createDateKey(mEventStartTime);
     }
 
     public String getOldDateKey() {
-        return createDateKey(mOutdatedCalendar);
+        return createDateKey(mOutdatedStartTime);
     }
 
     @SuppressWarnings("all")
     private String createDateKey(GregorianCalendar calendar) {
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat("LL dd yyyy");
         return simpleDateFormat.format(calendar.getTime());
+    }
+
+    public UUID getEventId() {
+        return mEventId;
     }
 
     public String getTitle() {
@@ -57,13 +60,21 @@ public class Event implements Serializable, Comparable<Event> {
         mTitle = title;
     }
 
-    public GregorianCalendar getCalendar() {
-        return mCalendar;
+    public GregorianCalendar getEventStartTime() {
+        return mEventStartTime;
     }
 
-    public void setCalendar(GregorianCalendar calendar) {
-        mOutdatedCalendar = mCalendar;
-        mCalendar = calendar;
+    public void setEventStartTime(GregorianCalendar eventStartTime) {
+        mOutdatedStartTime = mEventStartTime;
+        mEventStartTime = eventStartTime;
+    }
+
+    public GregorianCalendar getEventEndTime() {
+        return mEventEndTime;
+    }
+
+    public void setEventEndTime(GregorianCalendar eventEndTime) {
+        mEventEndTime = eventEndTime;
     }
 
     public String getLocation() {
