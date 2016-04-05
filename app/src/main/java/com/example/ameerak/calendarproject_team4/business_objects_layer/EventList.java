@@ -67,7 +67,7 @@ public class EventList {
         return null;
     }
 
-    public void removeEvent(UUID eventId) {
+    public void deleteEvent(UUID eventId) {
 
         for (LinkedList<Event> eventList : mEvents.values()) {
             for (Event event : eventList) {
