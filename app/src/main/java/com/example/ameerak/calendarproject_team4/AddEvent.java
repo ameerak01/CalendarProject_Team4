@@ -25,7 +25,7 @@ public class AddEvent extends AppCompatActivity {
         GregorianCalendar c = new GregorianCalendar();
         GregorianCalendar endtime = new GregorianCalendar();
         //SimpleDateFormat ss = new SimpleDateFormat("dd-MM-yyyy");
-        DatePicker datepick = (DatePicker) this.findViewById(R.id.datePicker_main);
+        //DatePicker datepick = (DatePicker) this.findViewById(R.id.datePicker_main);
         //String dateString= ss.format(datepick);
         TextView date_text = (TextView) this.findViewById(R.id.date_editText);
         TextView event_text = (TextView) this.findViewById(R.id.event_editText);
@@ -33,7 +33,7 @@ public class AddEvent extends AppCompatActivity {
         TextView description_text = (TextView) this.findViewById(R.id.description_editText);
 
         // To set the text as the date like MM/DD/YEAR
-        date_text.setText(datepick.getMonth() + "/" + datepick.getDayOfMonth() + "/" + datepick.getYear());
+        //date_text.setText(datepick.getMonth() + "/" + datepick.getDayOfMonth() + "/" + datepick.getYear());
        // editText.setText("Hello");
 
         // To set the text as the time

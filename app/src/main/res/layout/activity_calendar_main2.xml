@@ -5,6 +5,8 @@ https://www.toptal.com/android/android-customization-how-to-build-a-ui-component
 -->
 <LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/calendar_linear_layout"
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -49,7 +51,6 @@ https://www.toptal.com/android/android-customization-how-to-build-a-ui-component
             android:layout_width="30dp"
             android:layout_height="30dp"
             android:src="@drawable/ic_keyboard_arrow_right_black_24dp"
-            android:layout_alignTop="@+id/textView"
             android:layout_alignParentEnd="true" />
 
 
@@ -128,5 +129,7 @@ https://www.toptal.com/android/android-customization-how-to-build-a-ui-component
         android:id="@+id/calendar_grid"
         android:layout_width="match_parent"
         android:layout_height="340dp"
-        android:numColumns="7"/>
+        android:gravity="center_horizontal"
+        android:numColumns="7"
+        tools:listitem="@android:layout/simple_list_item_1" />
 </LinearLayout>
