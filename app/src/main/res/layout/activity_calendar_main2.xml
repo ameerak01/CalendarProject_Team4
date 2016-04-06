@@ -40,7 +40,7 @@ https://www.toptal.com/android/android-customization-how-to-build-a-ui-component
             android:layout_height="match_parent"
             android:textAppearance="@android:style/TextAppearance.Medium"
             android:textColor="#222222"
-            android:text="current date"
+            android:text="April 2016"
             android:layout_alignWithParentIfMissing="false"
             android:layout_alignTop="@+id/calendar_prev_button"
             android:layout_centerInParent="true" />

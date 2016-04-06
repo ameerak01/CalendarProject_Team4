@@ -12,6 +12,8 @@ import android.widget.TextView;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
 
+import static com.example.ameerak.calendarproject_team4.R.drawable.rounded_corners;
+
 /**
  * Created by neil on 4/6/16.
  */
@@ -74,6 +76,8 @@ public class TextAdapter extends BaseAdapter {
         else {
             tv = (TextView) convertView;
         }
+
+        //tv.setBackgroundResource(rounded_corners);
 
         if(workingIndex <= firstDayOfMonth ) {
             today = prevDaysDisplayed + workingIndex;
