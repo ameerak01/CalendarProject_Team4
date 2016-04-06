@@ -36,15 +36,6 @@ public class CalendarMain2 extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_calendar_main2);
-
-        //CalendarView cView;
-        //CalendarView cView = (CalendarView) findViewById(R.id.calendar_linear_layout);
-        //cView.updateCalendar();
-
-
-        //cView = new CalendarView(this);
-        //cView.updateCalendar();
-
         GridView gridview = (GridView) findViewById(R.id.calendar_grid);
         gridview.setAdapter(new TextAdapter(this));
 
