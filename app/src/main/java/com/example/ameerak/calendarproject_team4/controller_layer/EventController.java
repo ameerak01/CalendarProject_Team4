@@ -5,6 +5,7 @@ import android.content.Context;
 import com.example.ameerak.calendarproject_team4.business_objects_layer.Event;
 import com.example.ameerak.calendarproject_team4.business_objects_layer.EventList;
 
+import java.util.Date;
 import java.util.LinkedList;
 import java.util.UUID;
 
@@ -25,8 +26,13 @@ public class EventController {
         mEventList = EventList.get();
     }
 
+    // Months go from 0-11
     public LinkedList<Event> getEvents(int year, int month, int day) {
         return mEventList.getEvents(mEventList.createDateKey(year, month, day));
+    }
+
+    public LinkedList<Event> getEvents(Date date) {
+        return mEventList.getEvents(mEventList.createDateKey(date));
     }
 
     public void addEvent(Event event) {
