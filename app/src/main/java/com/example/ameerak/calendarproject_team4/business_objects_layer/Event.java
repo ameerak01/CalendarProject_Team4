@@ -13,39 +13,30 @@ public class Event implements Serializable, Comparable<Event> {
     private UUID mEventId;
     private String mTitle;
     private GregorianCalendar mEventStartTime;
-    private GregorianCalendar mOutdatedStartTime; // For updating purposes within EventList
     private GregorianCalendar mEventEndTime;
     private String mLocation;
     private String mDescription;
 
-    public Event(String title, GregorianCalendar calendar, GregorianCalendar eventEndTime,
+    public Event(String title, GregorianCalendar evenStartTime, GregorianCalendar eventEndTime,
                  String location, String description) {
         mEventId = UUID.randomUUID();
         mTitle = title;
-        mEventStartTime = calendar;
+        mEventStartTime = evenStartTime;
         mEventEndTime = eventEndTime;
         mLocation = location;
         mDescription = description;
-        mOutdatedStartTime = calendar;
     }
 
+    // Sorts Events in EventList by EventStartTime
     @Override
     public int compareTo(@NonNull Event otherEvent) {
         return getEventStartTime().compareTo(otherEvent.getEventStartTime());
     }
 
-    public String getDateKey() {
-        return createDateKey(mEventStartTime);
-    }
-
-    public String getOldDateKey() {
-        return createDateKey(mOutdatedStartTime);
-    }
-
     @SuppressWarnings("all")
-    private String createDateKey(GregorianCalendar calendar) {
+    public String getDateKey() {
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat("LL dd yyyy");
-        return simpleDateFormat.format(calendar.getTime());
+        return simpleDateFormat.format(mEventStartTime.getTime());
     }
 
     public UUID getEventId() {
@@ -65,7 +56,6 @@ public class Event implements Serializable, Comparable<Event> {
     }
 
     public void setEventStartTime(GregorianCalendar eventStartTime) {
-        mOutdatedStartTime = mEventStartTime;
         mEventStartTime = eventStartTime;
     }
 

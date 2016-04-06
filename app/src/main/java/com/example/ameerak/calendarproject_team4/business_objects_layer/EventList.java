@@ -3,6 +3,7 @@ package com.example.ameerak.calendarproject_team4.business_objects_layer;
 
 import java.text.SimpleDateFormat;
 import java.util.Collections;
+import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.Hashtable;
 import java.util.LinkedList;
@@ -44,15 +45,8 @@ public class EventList {
     }
 
     public void updateEvent(Event event) {
-        LinkedList<Event> eventList = getEvents(event.getOldDateKey());
-
-        for (Event retrievedEvent : eventList) {
-            if (retrievedEvent.getEventId().equals(event.getEventId())) {
-                eventList.remove(retrievedEvent);
-                addEvent(event);
-                break;
-            }
-        }
+        deleteEvent(event.getEventId());
+        addEvent(event);
     }
 
     public Event getEvent(UUID eventId) {
@@ -83,6 +77,15 @@ public class EventList {
     public String createDateKey(int year, int month, int day) {
         GregorianCalendar calendar = new GregorianCalendar();
         calendar.set(year, month, day);
+
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("LL dd yyyy");
+        return simpleDateFormat.format(calendar.getTime());
+    }
+
+    @SuppressWarnings("all")
+    public String createDateKey(Date date) {
+        GregorianCalendar calendar = new GregorianCalendar();
+        calendar.setTimeInMillis(date.getTime());
 
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat("LL dd yyyy");
         return simpleDateFormat.format(calendar.getTime());
