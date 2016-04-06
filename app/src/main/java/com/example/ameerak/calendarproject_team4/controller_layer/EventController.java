@@ -25,29 +25,23 @@ public class EventController {
         mEventList = EventList.get();
     }
 
-    // Returns a LinkedList of events pertaining to specified date or null if no events for specified date exist
-    // months go from 0-11, so if you wanted list for events on April 4, 2016 you call: eventController.getEvents(2016, 3, 4);
     public LinkedList<Event> getEvents(int year, int month, int day) {
         return mEventList.getEvents(mEventList.createDateKey(year, month, day));
     }
 
-    // Called when adding a event for the first time; for use in (Add Event)
     public void addEvent(Event event) {
         mEventList.addEvent(event);
+    }
+
+    public void updateEvent(Event event) {
+        mEventList.updateEvent(event);
     }
 
     public Event getEvent(UUID eventId) {
         return mEventList.getEvent(eventId);
     }
 
-    // Called when updating an already existing events, for use in (Edit Event)
-    public void updateEvent(Event event) {
-        mEventList.updateEvent(event);
-    }
-
-    // For use in (Delete Event)
     public void deleteEvent(UUID eventId) { 
-        mEventList.removeEvent(eventId);
+        mEventList.deleteEvent(eventId);
     }
-
 }

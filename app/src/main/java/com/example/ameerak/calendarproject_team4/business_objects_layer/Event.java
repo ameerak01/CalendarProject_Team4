@@ -3,47 +3,53 @@ package com.example.ameerak.calendarproject_team4.business_objects_layer;
 
 import android.support.annotation.NonNull;
 
+import java.io.Serializable;
 import java.text.SimpleDateFormat;
 import java.util.GregorianCalendar;
 import java.util.UUID;
 
-public class Event implements Comparable<Event> {
+public class Event implements Serializable, Comparable<Event> {
 
     private UUID mEventId;
     private String mTitle;
-    private GregorianCalendar mCalendar;
-    private GregorianCalendar mOutdatedCalendar; // Used for updating purposes within EventList
+    private GregorianCalendar mEventStartTime;
+    private GregorianCalendar mOutdatedStartTime; // For updating purposes within EventList
+    private GregorianCalendar mEventEndTime;
     private String mLocation;
     private String mDescription;
 
-    public Event(String title, GregorianCalendar calendar, String location, String description) {
+    public Event(String title, GregorianCalendar calendar, GregorianCalendar eventEndTime,
+                 String location, String description) {
         mEventId = UUID.randomUUID();
         mTitle = title;
-        mCalendar = calendar;
+        mEventStartTime = calendar;
+        mEventEndTime = eventEndTime;
         mLocation = location;
         mDescription = description;
-        mOutdatedCalendar = calendar;
+        mOutdatedStartTime = calendar;
     }
 
     @Override
     public int compareTo(@NonNull Event otherEvent) {
-        return getCalendar().compareTo(otherEvent.getCalendar());
+        return getEventStartTime().compareTo(otherEvent.getEventStartTime());
+    }
+
+    public String getDateKey() {
+        return createDateKey(mEventStartTime);
+    }
+
+    public String getOldDateKey() {
+        return createDateKey(mOutdatedStartTime);
+    }
+
+    @SuppressWarnings("all")
+    private String createDateKey(GregorianCalendar calendar) {
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("LL dd yyyy");
+        return simpleDateFormat.format(calendar.getTime());
     }
 
     public UUID getEventId() {
         return mEventId;
-    }
-
-    @SuppressWarnings("all")
-    public String getDateKey() {
-        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("LL dd yyyy");
-        return simpleDateFormat.format(getCalendar().getTime());
-    }
-
-    @SuppressWarnings("all")
-    public String getOldDateKey() {
-        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("LL dd yyyy");
-        return simpleDateFormat.format(getOutdatedCalendar().getTime());
     }
 
     public String getTitle() {
@@ -54,13 +60,21 @@ public class Event implements Comparable<Event> {
         mTitle = title;
     }
 
-    public GregorianCalendar getCalendar() {
-        return mCalendar;
+    public GregorianCalendar getEventStartTime() {
+        return mEventStartTime;
     }
 
-    public void setCalendar(GregorianCalendar calendar) {
-        mOutdatedCalendar = mCalendar;
-        mCalendar = calendar;
+    public void setEventStartTime(GregorianCalendar eventStartTime) {
+        mOutdatedStartTime = mEventStartTime;
+        mEventStartTime = eventStartTime;
+    }
+
+    public GregorianCalendar getEventEndTime() {
+        return mEventEndTime;
+    }
+
+    public void setEventEndTime(GregorianCalendar eventEndTime) {
+        mEventEndTime = eventEndTime;
     }
 
     public String getLocation() {
@@ -77,9 +91,5 @@ public class Event implements Comparable<Event> {
 
     public void setDescription(String description) {
         mDescription = description;
-    }
-
-    public GregorianCalendar getOutdatedCalendar() {
-        return mOutdatedCalendar;
     }
 }
