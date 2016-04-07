@@ -17,11 +17,11 @@ public class Event implements Serializable, Comparable<Event> {
     private String mLocation;
     private String mDescription;
 
-    public Event(String title, GregorianCalendar evenStartTime, GregorianCalendar eventEndTime,
+    public Event(String title, GregorianCalendar eventStartTime, GregorianCalendar eventEndTime,
                  String location, String description) {
         mEventId = UUID.randomUUID();
         mTitle = title;
-        mEventStartTime = evenStartTime;
+        mEventStartTime = eventStartTime;
         mEventEndTime = eventEndTime;
         mLocation = location;
         mDescription = description;
