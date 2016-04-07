@@ -15,6 +15,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.example.ameerak.calendarproject_team4.business_objects_layer.EventList;
+import com.example.ameerak.calendarproject_team4.controller_layer.EventController;
 import com.google.android.gms.appindexing.Action;
 import com.google.android.gms.appindexing.AppIndex;
 import com.google.android.gms.common.api.GoogleApiClient;
@@ -26,11 +27,11 @@ import java.util.Date;
 import java.util.GregorianCalendar;
 
 public class CalendarMain2 extends AppCompatActivity {
-    protected EventList eventList;
-    GridView gridview;
-    TextAdapter textAdapter;
-    ImageView prevMonth, nextMonth;
-    protected GregorianCalendar calendar;
+    EventController eventController;
+    public GridView gridview;
+    public TextAdapter textAdapter;
+    public ImageView prevMonth, nextMonth;
+    public GregorianCalendar calendar;
     /**
      * ATTENTION: This was auto-generated to implement the App Indexing API.
      * See https://g.co/AppIndexing/AndroidStudio for more information.
@@ -40,7 +41,6 @@ public class CalendarMain2 extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        eventList = EventList.get();
 
         calendar = (GregorianCalendar) GregorianCalendar.getInstance();
 
@@ -73,9 +73,6 @@ public class CalendarMain2 extends AppCompatActivity {
                     calendar = new GregorianCalendar((calendar.get(GregorianCalendar.YEAR) - 1), 11, 1);
                 }
                 setMonth(calendar);
-                textAdapter.changeCalendar(calendar);
-                textAdapter.notifyDataSetChanged();
-                gridview.setAdapter(textAdapter);
             }
         });
 
@@ -92,9 +89,6 @@ public class CalendarMain2 extends AppCompatActivity {
                     calendar = new GregorianCalendar((calendar.get(calendar.YEAR) + 1), 1, 1);
                 }
                 setMonth(calendar);
-                textAdapter.changeCalendar(calendar);
-                textAdapter.notifyDataSetChanged();
-                gridview.setAdapter(textAdapter);
             }
         });
 
@@ -144,15 +138,21 @@ public class CalendarMain2 extends AppCompatActivity {
 
         textView.setText(monthString + " " + calendar.get(GregorianCalendar.YEAR));
 
+
+
+        textAdapter.changeCalendar(calendar);
+        //textAdapter.notifyDataSetChanged(calendar);
+        //textAdapter.notifyDataSetChanged();
+        //gridview.setAdapter(textAdapter);
+        //invalidateViews();
+
     }
 
     @Override
     public void onResume() {
         super.onResume();
 
-        // rebuild the gridview
-        textAdapter.notifyDataSetChanged(calendar);
-        gridview.setAdapter(textAdapter);
+
 
     }
 
