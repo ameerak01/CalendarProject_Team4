@@ -67,10 +67,10 @@ public class CalendarMain2 extends AppCompatActivity {
         prevMonth.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (calendar.get(Calendar.MONTH) - 1 > 0) {
-                    calendar = new GregorianCalendar(Calendar.YEAR, (Calendar.MONTH - 1), 1);
+                if ((calendar.get(GregorianCalendar.MONTH) + 1) > 0) {
+                    calendar = new GregorianCalendar(calendar.get(GregorianCalendar.YEAR), (calendar.get(GregorianCalendar.MONTH) - 1), 1);
                 } else {
-                    calendar = new GregorianCalendar(calendar.YEAR - 1, 11, 1);
+                    calendar = new GregorianCalendar((calendar.get(GregorianCalendar.YEAR) - 1), 11, 1);
                 }
                 setMonth(calendar);
                 textAdapter.notifyDataSetChanged(calendar);
@@ -83,11 +83,11 @@ public class CalendarMain2 extends AppCompatActivity {
         nextMonth.setOnClickListener( new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if( calendar.get(Calendar.MONTH) + 1 < 12) {
-                    calendar = new GregorianCalendar(Calendar.YEAR, (Calendar.MONTH + 1), 1);
+                if( (calendar.get(GregorianCalendar.MONTH) + 1) < 13) {
+                    calendar = new GregorianCalendar(calendar.get(GregorianCalendar.YEAR), (calendar.get(GregorianCalendar.MONTH) + 1), 1);
                 }
                 else {
-                    calendar = new GregorianCalendar(calendar.YEAR + 1, 1, 1);
+                    calendar = new GregorianCalendar((calendar.get(calendar.YEAR) + 1), 1, 1);
                 }
                 setMonth(calendar);
                 textAdapter.notifyDataSetChanged(calendar);
@@ -105,7 +105,7 @@ public class CalendarMain2 extends AppCompatActivity {
     }
 
     private void setMonth(GregorianCalendar calendar) {
-        int month = calendar.get(GregorianCalendar.MONTH) + 1;
+        int month = (calendar.get(GregorianCalendar.MONTH) + 1);
         String monthString;
         TextView textView = (TextView) findViewById(R.id.calendar_date_display);
         switch (month) {
