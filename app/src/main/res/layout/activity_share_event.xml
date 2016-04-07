@@ -32,7 +32,7 @@
         android:text="Send"
         android:id="@+id/send_button"
         android:layout_alignParentBottom="true"
-        android:layout_alignStart="@+id/viewContact_email" />
+        android:layout_toEndOf="@+id/textView" />
 
     <Button
         android:layout_width="wrap_content"
