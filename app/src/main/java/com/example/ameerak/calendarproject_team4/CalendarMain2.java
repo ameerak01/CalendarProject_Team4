@@ -78,6 +78,7 @@ public class CalendarMain2 extends AppCompatActivity {
         });
 
 
+
        nextMonth = (ImageView) findViewById(R.id.calendar_next_button);
         nextMonth.setOnClickListener( new View.OnClickListener() {
             @Override
