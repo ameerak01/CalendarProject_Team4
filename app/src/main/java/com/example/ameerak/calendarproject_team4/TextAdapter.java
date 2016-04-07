@@ -31,14 +31,15 @@ public class TextAdapter extends BaseAdapter {
             firstDayOfMonth, prevMonth, lengthPreviousMonth,
             prevDaysDisplayed;
 
-    public TextAdapter(Context context) {
+    public TextAdapter(Context context, GregorianCalendar calendar) {
         this.context = context;
-        calendar = (GregorianCalendar) GregorianCalendar.getInstance();
-        dayOfWeek = calendar.get(Calendar.DAY_OF_WEEK);
-        dayOfMonth = calendar.get(Calendar.DAY_OF_MONTH);
-        daysInMonth = calendar.getActualMaximum(Calendar.DAY_OF_MONTH);
-        prevMonth = calendar.get(Calendar.MONTH) - 1;
-        prevMonthCalendar = new GregorianCalendar(Calendar.YEAR, prevMonth,1);
+        this.calendar = calendar;
+        dayOfWeek = this.calendar.get(GregorianCalendar.DAY_OF_WEEK);
+        dayOfMonth = this.calendar.get(GregorianCalendar.DAY_OF_MONTH);
+        daysInMonth = this.calendar.getActualMaximum(GregorianCalendar.DAY_OF_MONTH);
+        prevMonth = this.calendar.get(GregorianCalendar.MONTH) - 1;
+        // TODO: Make this not break for month = jan
+        prevMonthCalendar = new GregorianCalendar(this.calendar.get(GregorianCalendar.YEAR), prevMonth,1);
         lengthPreviousMonth = prevMonthCalendar.getActualMaximum(Calendar.DAY_OF_MONTH);
 
 
@@ -72,6 +73,7 @@ public class TextAdapter extends BaseAdapter {
     }
 
     public void notifyDataSetChanged(GregorianCalendar calendar) {
+        this.calendar = null;
         this.calendar = calendar;
         super.notifyDataSetChanged();
 
@@ -98,47 +100,28 @@ public class TextAdapter extends BaseAdapter {
             today = prevDaysDisplayed + workingPosition;
 
             // Check that the previous month was not december of the previous year
-            if (GregorianCalendar.MONTH - 1 >= 0) {
-<<<<<<< HEAD
-                return new GregorianCalendar(GregorianCalendar.YEAR, GregorianCalendar.MONTH - 1, today);
+            if (this.calendar.get(GregorianCalendar.MONTH) - 1 >= 0) {
+                return new GregorianCalendar(this.calendar.get(GregorianCalendar.YEAR), this.calendar.get(GregorianCalendar.MONTH) - 1, today);
             }
             else {
-                return new GregorianCalendar(GregorianCalendar.YEAR - 1, 12, today);
-=======
-                return new GregorianCalendar(calendar.get(GregorianCalendar.YEAR), calendar.get(GregorianCalendar.MONTH) - 1, today);
-            }
-            else {
-                return new GregorianCalendar(calendar.get(GregorianCalendar.YEAR) - 1, 12, today);
->>>>>>> origin/master
+                return new GregorianCalendar(this.calendar.get(GregorianCalendar.YEAR) - 1, 12, today);
             }
 
         }
         // Indicates the current position of the grid is the current month
         else if (workingPosition <= (daysInMonth + firstDayOfMonth)) {
             today = workingPosition - firstDayOfMonth;
-<<<<<<< HEAD
-            return new GregorianCalendar(GregorianCalendar.YEAR, GregorianCalendar.MONTH, today);
-=======
-            return new GregorianCalendar(calendar.get(GregorianCalendar.YEAR), calendar.get(GregorianCalendar.MONTH), today);
->>>>>>> origin/master
+            return new GregorianCalendar(this.calendar.get(GregorianCalendar.YEAR), this.calendar.get(GregorianCalendar.MONTH), today);
         }
         // Otherwise the current position is outside of current month.
         else {
             today = workingPosition - firstDayOfMonth - daysInMonth;
             // Check that the next month is not January of the next year
-<<<<<<< HEAD
-            if(GregorianCalendar.MONTH + 1 < 12) {
-                return new GregorianCalendar(GregorianCalendar.YEAR, GregorianCalendar.MONTH + 1, today);
+            if(this.calendar.get(GregorianCalendar.MONTH) + 1 < 12) {
+                return new GregorianCalendar(this.calendar.get(GregorianCalendar.YEAR), this.calendar.get(GregorianCalendar.MONTH) + 1, today);
             }
             else {
-                return new GregorianCalendar(GregorianCalendar.YEAR + 1, 1, today);
-=======
-            if(calendar.get(GregorianCalendar.MONTH) + 1 < 12) {
-                return new GregorianCalendar(calendar.get(GregorianCalendar.YEAR), calendar.get(GregorianCalendar.MONTH) + 1, today);
-            }
-            else {
-                return new GregorianCalendar(calendar.get(GregorianCalendar.YEAR) + 1, 1, today);
->>>>>>> origin/master
+                return new GregorianCalendar(this.calendar.get(GregorianCalendar.YEAR) + 1, 1, today);
             }
         }
     }
@@ -205,5 +188,10 @@ public class TextAdapter extends BaseAdapter {
         tv.setText(Integer.toString(today));
 
         return tv;
+    }
+
+    public void changeCalendar(GregorianCalendar calendar) {
+        this.calendar = calendar;
+        notifyDataSetChanged();
     }
 }
