@@ -46,7 +46,7 @@ public class CalendarMain2 extends AppCompatActivity {
 
         setContentView(R.layout.activity_calendar_main2);
         gridview = (GridView) findViewById(R.id.calendar_grid);
-        textAdapter = new TextAdapter(this);
+        textAdapter = new TextAdapter(this, calendar);
         gridview.setAdapter(textAdapter);
         gridview.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
@@ -73,7 +73,9 @@ public class CalendarMain2 extends AppCompatActivity {
                     calendar = new GregorianCalendar((calendar.get(GregorianCalendar.YEAR) - 1), 11, 1);
                 }
                 setMonth(calendar);
-                textAdapter.notifyDataSetChanged(calendar);
+                textAdapter.changeCalendar(calendar);
+                textAdapter.notifyDataSetChanged();
+                gridview.setAdapter(textAdapter);
             }
         });
 
@@ -90,7 +92,9 @@ public class CalendarMain2 extends AppCompatActivity {
                     calendar = new GregorianCalendar((calendar.get(calendar.YEAR) + 1), 1, 1);
                 }
                 setMonth(calendar);
-                textAdapter.notifyDataSetChanged(calendar);
+                textAdapter.changeCalendar(calendar);
+                textAdapter.notifyDataSetChanged();
+                gridview.setAdapter(textAdapter);
             }
         });
 

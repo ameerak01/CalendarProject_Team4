@@ -31,14 +31,15 @@ public class TextAdapter extends BaseAdapter {
             firstDayOfMonth, prevMonth, lengthPreviousMonth,
             prevDaysDisplayed;
 
-    public TextAdapter(Context context) {
+    public TextAdapter(Context context, GregorianCalendar calendar) {
         this.context = context;
-        calendar = (GregorianCalendar) GregorianCalendar.getInstance();
-        dayOfWeek = calendar.get(Calendar.DAY_OF_WEEK);
-        dayOfMonth = calendar.get(Calendar.DAY_OF_MONTH);
-        daysInMonth = calendar.getActualMaximum(Calendar.DAY_OF_MONTH);
-        prevMonth = calendar.get(Calendar.MONTH) - 1;
-        prevMonthCalendar = new GregorianCalendar(Calendar.YEAR, prevMonth,1);
+        this.calendar = calendar;
+        dayOfWeek = this.calendar.get(GregorianCalendar.DAY_OF_WEEK);
+        dayOfMonth = this.calendar.get(GregorianCalendar.DAY_OF_MONTH);
+        daysInMonth = this.calendar.getActualMaximum(GregorianCalendar.DAY_OF_MONTH);
+        prevMonth = this.calendar.get(GregorianCalendar.MONTH) - 1;
+        // TODO: Make this not break for month = jan
+        prevMonthCalendar = new GregorianCalendar(this.calendar.get(GregorianCalendar.YEAR), prevMonth,1);
         lengthPreviousMonth = prevMonthCalendar.getActualMaximum(Calendar.DAY_OF_MONTH);
 
 
@@ -186,5 +187,9 @@ public class TextAdapter extends BaseAdapter {
         tv.setText(Integer.toString(today));
 
         return tv;
+    }
+
+    public void changeCalendar(GregorianCalendar calendar) {
+        this.calendar = calendar;
     }
 }
