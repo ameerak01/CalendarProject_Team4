@@ -43,5 +43,7 @@ public class EditEvent extends AppCompatActivity
         eventDescription = (EditText) findViewById(R.id.description_editText);
         eventDescription.setText(event.getDescription());
 
+
+
     }
 }
