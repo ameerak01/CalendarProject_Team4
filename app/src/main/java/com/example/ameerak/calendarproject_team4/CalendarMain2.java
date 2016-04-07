@@ -27,6 +27,10 @@ import java.util.GregorianCalendar;
 
 public class CalendarMain2 extends AppCompatActivity {
     protected EventList eventList;
+    GridView gridview;
+    TextAdapter textAdapter;
+    ImageView prevMonth, nextMonth;
+    protected GregorianCalendar calendar;
     /**
      * ATTENTION: This was auto-generated to implement the App Indexing API.
      * See https://g.co/AppIndexing/AndroidStudio for more information.
@@ -38,17 +42,17 @@ public class CalendarMain2 extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         eventList = EventList.get();
 
+        calendar = (GregorianCalendar) GregorianCalendar.getInstance();
+
         setContentView(R.layout.activity_calendar_main2);
-        final GridView gridview = (GridView) findViewById(R.id.calendar_grid);
-
-        final TextAdapter textAdapter = new TextAdapter(this);
+        gridview = (GridView) findViewById(R.id.calendar_grid);
+        textAdapter = new TextAdapter(this);
         gridview.setAdapter(textAdapter);
-
         gridview.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 
-                // TODO: ONce EventList is complete and EditEvent ad logic to call proper class
+                // TODO: Once EventList is complete and EditEvent ad logic to call proper class
 
                 addEvent(textAdapter.getDate(position));
 
@@ -57,9 +61,94 @@ public class CalendarMain2 extends AppCompatActivity {
         });
 
 
+        setMonth(calendar);
+
+        prevMonth = (ImageView) findViewById(R.id.calendar_prev_button);
+        prevMonth.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (calendar.get(Calendar.MONTH) - 1 > 0) {
+                    calendar = new GregorianCalendar(Calendar.YEAR, (Calendar.MONTH - 1), 1);
+                } else {
+                    calendar = new GregorianCalendar(calendar.YEAR - 1, 11, 1);
+                }
+                setMonth(calendar);
+                textAdapter.notifyDataSetChanged(calendar);
+            }
+        });
+
+
+       nextMonth = (ImageView) findViewById(R.id.calendar_next_button);
+        nextMonth.setOnClickListener( new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if( calendar.get(Calendar.MONTH) + 1 < 12) {
+                    calendar = new GregorianCalendar(Calendar.YEAR, (Calendar.MONTH + 1), 1);
+                }
+                else {
+                    calendar = new GregorianCalendar(calendar.YEAR + 1, 1, 1);
+                }
+                setMonth(calendar);
+                textAdapter.notifyDataSetChanged(calendar);
+            }
+        });
+
+
+
+
+
+
         // ATTENTION: This was auto-generated to implement the App Indexing API.
         // See https://g.co/AppIndexing/AndroidStudio for more information.
         client = new GoogleApiClient.Builder(this).addApi(AppIndex.API).build();
+    }
+
+    private void setMonth(GregorianCalendar calendar) {
+        int month = calendar.get(GregorianCalendar.MONTH) + 1;
+        String monthString;
+        TextView textView = (TextView) findViewById(R.id.calendar_date_display);
+        switch (month) {
+            case 1: monthString = "January";
+                break;
+            case 2: monthString = "February";
+                break;
+            case 3: monthString = "March";
+                break;
+            case 4: monthString = "April";
+                break;
+            case 5: monthString = "May";
+                break;
+            case 6: monthString = "June";
+                break;
+            case 7: monthString = "July";
+                break;
+            case 8: monthString = "August";
+                break;
+            case 9: monthString = "September";
+                break;
+            case 10: monthString = "October";
+                break;
+            case 11: monthString = "November";
+                break;
+            case 12: monthString = "December";
+                break;
+            default: monthString = "ERROR";
+                break;
+        }
+
+
+        textView.setText(monthString + " " + calendar.get(GregorianCalendar.YEAR));
+
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+
+        // rebuild the gridview
+        textAdapter.notifyDataSetChanged(calendar);
+        gridview.setAdapter(textAdapter);
+
     }
 
 

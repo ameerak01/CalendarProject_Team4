@@ -71,6 +71,12 @@ public class TextAdapter extends BaseAdapter {
 
     }
 
+    public void notifyDataSetChanged(GregorianCalendar calendar) {
+        this.calendar = calendar;
+        super.notifyDataSetChanged();
+
+    }
+
     public int getCount() {
         return 42;
     }
@@ -92,7 +98,7 @@ public class TextAdapter extends BaseAdapter {
             today = prevDaysDisplayed + workingPosition;
 
             // Check that the previous month was not december of the previous year
-            if (GregorianCalendar.MONTH - 1 > 0) {
+            if (GregorianCalendar.MONTH - 1 >= 0) {
                 return new GregorianCalendar(GregorianCalendar.YEAR, GregorianCalendar.MONTH - 1, today);
             }
             else {
@@ -109,7 +115,7 @@ public class TextAdapter extends BaseAdapter {
         else {
             today = workingPosition - firstDayOfMonth - daysInMonth;
             // Check that the next month is not January of the next year
-            if(GregorianCalendar.MONTH + 1 < 13) {
+            if(GregorianCalendar.MONTH + 1 < 12) {
                 return new GregorianCalendar(GregorianCalendar.YEAR, GregorianCalendar.MONTH + 1, today);
             }
             else {
