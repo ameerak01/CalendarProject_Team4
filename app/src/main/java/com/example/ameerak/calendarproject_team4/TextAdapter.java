@@ -99,27 +99,46 @@ public class TextAdapter extends BaseAdapter {
 
             // Check that the previous month was not december of the previous year
             if (GregorianCalendar.MONTH - 1 >= 0) {
+<<<<<<< HEAD
                 return new GregorianCalendar(GregorianCalendar.YEAR, GregorianCalendar.MONTH - 1, today);
             }
             else {
                 return new GregorianCalendar(GregorianCalendar.YEAR - 1, 12, today);
+=======
+                return new GregorianCalendar(calendar.get(GregorianCalendar.YEAR), calendar.get(GregorianCalendar.MONTH) - 1, today);
+            }
+            else {
+                return new GregorianCalendar(calendar.get(GregorianCalendar.YEAR) - 1, 12, today);
+>>>>>>> origin/master
             }
 
         }
         // Indicates the current position of the grid is the current month
         else if (workingPosition <= (daysInMonth + firstDayOfMonth)) {
             today = workingPosition - firstDayOfMonth;
+<<<<<<< HEAD
             return new GregorianCalendar(GregorianCalendar.YEAR, GregorianCalendar.MONTH, today);
+=======
+            return new GregorianCalendar(calendar.get(GregorianCalendar.YEAR), calendar.get(GregorianCalendar.MONTH), today);
+>>>>>>> origin/master
         }
         // Otherwise the current position is outside of current month.
         else {
             today = workingPosition - firstDayOfMonth - daysInMonth;
             // Check that the next month is not January of the next year
+<<<<<<< HEAD
             if(GregorianCalendar.MONTH + 1 < 12) {
                 return new GregorianCalendar(GregorianCalendar.YEAR, GregorianCalendar.MONTH + 1, today);
             }
             else {
                 return new GregorianCalendar(GregorianCalendar.YEAR + 1, 1, today);
+=======
+            if(calendar.get(GregorianCalendar.MONTH) + 1 < 12) {
+                return new GregorianCalendar(calendar.get(GregorianCalendar.YEAR), calendar.get(GregorianCalendar.MONTH) + 1, today);
+            }
+            else {
+                return new GregorianCalendar(calendar.get(GregorianCalendar.YEAR) + 1, 1, today);
+>>>>>>> origin/master
             }
         }
     }

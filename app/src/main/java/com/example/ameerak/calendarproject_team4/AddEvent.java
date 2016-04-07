@@ -40,7 +40,11 @@ public class AddEvent extends AppCompatActivity {
        // editText.setText(datepick.getHours() + ":" + datepick.getMinutes());
 
         Event event = new Event(event_text.toString(), c,endtime, location_text.toString(), description_text.toString());
+
+        getIntent().getSerializableExtra("com.example.ameerak.calendarproject_team4.AddEvent");
+
     }
+
     public void goToShareView(View v)
     {
         startActivity(new Intent(this, ShareEvent.class));
