@@ -25,7 +25,7 @@ public class EditEvent extends AppCompatActivity
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_edit_event);
 
-        Event event = new Event("TITLE", new GregorianCalendar(), "Texas", "Description");
+        Event event = new Event("TITLE", new GregorianCalendar(), new GregorianCalendar(), "Texas", "Description");
 
         eventTitle = (EditText) findViewById(R.id.event_editText) ;
         eventTitle.setText(event.getTitle());
@@ -33,16 +33,14 @@ public class EditEvent extends AppCompatActivity
         // Better use a selector or dialog box for editing the date
         eventDate = (EditText) findViewById(R.id.date_editText);
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat("LL dd yyyy");
-        eventDate.setText(simpleDateFormat.format(event.getCalendar().getTime()));
+        eventDate.setText(simpleDateFormat.format(event.getEventStartTime().getTime()));
 
-        // Event time
-
-
+        eventDate.setText(event.getEventStartTime().toString());
 
         eventLocation = (EditText) findViewById(R.id.location_editText);
         eventTitle.setText(event.getLocation());
 
-        eventDescription = (EditText) findViewById(R.id.editText);
+        eventDescription = (EditText) findViewById(R.id.description_editText);
         eventDescription.setText(event.getDescription());
 
     }
