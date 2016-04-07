@@ -33,7 +33,7 @@ public class AddEvent extends AppCompatActivity {
         TextView description_text = (TextView) this.findViewById(R.id.description_editText);
 
         // To set the text as the date like MM/DD/YEAR
-        //date_text.setText(datepick.getMonth() + "/" + datepick.getDayOfMonth() + "/" + datepick.getYear());
+        date_text.setText(c.get(Calendar.MONTH) + "/" + c.get(Calendar.DAY_OF_MONTH) + "/" + c.get(Calendar.YEAR));
        // editText.setText("Hello");
 
         // To set the text as the time
