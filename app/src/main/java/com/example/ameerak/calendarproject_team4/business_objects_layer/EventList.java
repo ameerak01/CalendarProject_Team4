@@ -15,6 +15,7 @@ public class EventList {
 
     private Hashtable<String, LinkedList<Event>> mEvents;
 
+    // Only want a single event list in system
     public static EventList get() {
         if (sEventList == null) {
             sEventList = new EventList();
@@ -26,10 +27,23 @@ public class EventList {
         mEvents = new Hashtable<>();
     }
 
+    // To get a full list of events for a specific day
+    // Months go from 0-11
+    public LinkedList<Event> getEvents(int year, int month, int day) {
+        return mEvents.get(createDateKey(year, month, day));
+    }
+
+    // To get a full list of events for a specific day
+    public LinkedList<Event> getEvents(Date date) {
+        return mEvents.get(createDateKey(date));
+    }
+
+    // To get a full list of events for a specific day
     public LinkedList<Event> getEvents(String dateKey) {
         return mEvents.get(dateKey);
     }
 
+    // Called after add event sends event back to Main
     public void addEvent(Event event) {
         LinkedList<Event> eventList = getEvents(event.getDateKey());
 
@@ -44,6 +58,7 @@ public class EventList {
         mEvents.put(event.getDateKey(), eventList);
     }
 
+    // Called after edit event sends event back to Main
     public void updateEvent(Event event) {
         deleteEvent(event.getEventId());
         addEvent(event);
@@ -61,6 +76,7 @@ public class EventList {
         return null;
     }
 
+    // Called after delete event sends event id back to Main
     public void deleteEvent(UUID eventId) {
 
         for (LinkedList<Event> eventList : mEvents.values()) {
