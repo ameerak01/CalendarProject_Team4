@@ -3,6 +3,7 @@ package com.example.ameerak.calendarproject_team4;
 import android.content.Context;
 import android.graphics.Color;
 import android.text.Html;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
@@ -34,13 +35,19 @@ public class TextAdapter extends BaseAdapter {
     public TextAdapter(Context context, GregorianCalendar calendar) {
         this.context = context;
         this.calendar = calendar;
-        dayOfWeek = this.calendar.get(GregorianCalendar.DAY_OF_WEEK);
-        dayOfMonth = this.calendar.get(GregorianCalendar.DAY_OF_MONTH);
-        daysInMonth = this.calendar.getActualMaximum(GregorianCalendar.DAY_OF_MONTH);
-        prevMonth = this.calendar.get(GregorianCalendar.MONTH) - 1;
+        setParams(calendar);
+
+
+    }
+
+    private void setParams(GregorianCalendar calendar) {
+        this.dayOfWeek = calendar.get(GregorianCalendar.DAY_OF_WEEK);
+        this.dayOfMonth = calendar.get(GregorianCalendar.DAY_OF_MONTH);
+        this.daysInMonth = calendar.getActualMaximum(GregorianCalendar.DAY_OF_MONTH);
+        this.prevMonth = calendar.get(GregorianCalendar.MONTH) - 1;
         // TODO: Make this not break for month = jan
-        prevMonthCalendar = new GregorianCalendar(this.calendar.get(GregorianCalendar.YEAR), prevMonth,1);
-        lengthPreviousMonth = prevMonthCalendar.getActualMaximum(Calendar.DAY_OF_MONTH);
+        this.prevMonthCalendar = new GregorianCalendar(calendar.get(GregorianCalendar.YEAR), prevMonth,1);
+        this.lengthPreviousMonth = this.prevMonthCalendar.getActualMaximum(GregorianCalendar.DAY_OF_MONTH);
 
 
         /****************************
@@ -56,20 +63,18 @@ public class TextAdapter extends BaseAdapter {
          * the same method as the previous equation, then gets the modulus of the remaining days and 7
          * then subtracts from 7.
          * */
-        if(dayOfMonth == dayOfWeek) {
-            firstDayOfMonth = 1;
+        if(this.dayOfMonth == this.dayOfWeek) {
+            this.firstDayOfMonth = 1;
         }
-        else if (dayOfMonth < dayOfWeek) {
-            firstDayOfMonth = dayOfMonth-dayOfWeek;
+        else if (this.dayOfMonth < this.dayOfWeek) {
+            this.firstDayOfMonth = this.dayOfMonth-this.dayOfWeek;
         }
         else {
-            firstDayOfMonth = 7 - ((dayOfMonth-dayOfWeek)%7);
+            this.firstDayOfMonth = 7 - ((this.dayOfMonth-this.dayOfWeek)%7);
         }
 
         // Finds the first day of the previous month that will show in the first grid position
-        prevDaysDisplayed = lengthPreviousMonth - firstDayOfMonth;
-
-
+        this.prevDaysDisplayed = this.lengthPreviousMonth - this.firstDayOfMonth;
     }
 
     public void notifyDataSetChanged(GregorianCalendar calendar) {
@@ -192,6 +197,8 @@ public class TextAdapter extends BaseAdapter {
 
     public void changeCalendar(GregorianCalendar calendar) {
         this.calendar = calendar;
+        setParams(calendar);
         notifyDataSetChanged();
+        Log.d("changeCalendar", "The month is" + Integer.toString(this.calendar.get(GregorianCalendar.MONTH)));
     }
 }

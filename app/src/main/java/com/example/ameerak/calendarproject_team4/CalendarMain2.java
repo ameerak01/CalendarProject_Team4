@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.net.Uri;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -73,6 +74,7 @@ public class CalendarMain2 extends AppCompatActivity {
                     calendar = new GregorianCalendar((calendar.get(GregorianCalendar.YEAR) - 1), 11, 1);
                 }
                 setMonth(calendar);
+                Log.d("Calender_Prev_On_Click", "Just after Set Month");
             }
         });
 
@@ -89,6 +91,7 @@ public class CalendarMain2 extends AppCompatActivity {
                     calendar = new GregorianCalendar((calendar.get(calendar.YEAR) + 1), 1, 1);
                 }
                 setMonth(calendar);
+                Log.d("Calender_Next_On_Click", "Just after Set Month");
             }
         });
 
@@ -103,6 +106,7 @@ public class CalendarMain2 extends AppCompatActivity {
     }
 
     private void setMonth(GregorianCalendar calendar) {
+        this.calendar = calendar;
         int month = (calendar.get(GregorianCalendar.MONTH) + 1);
         String monthString;
         TextView textView = (TextView) findViewById(R.id.calendar_date_display);
@@ -145,6 +149,8 @@ public class CalendarMain2 extends AppCompatActivity {
         //textAdapter.notifyDataSetChanged();
         //gridview.setAdapter(textAdapter);
         //invalidateViews();
+
+        Log.d("Set_Month", monthString + " " + calendar.get(GregorianCalendar.YEAR));
 
     }
 
@@ -205,12 +211,21 @@ public class CalendarMain2 extends AppCompatActivity {
     public void addEvent(GregorianCalendar calendar)
     {
         Intent intent = new Intent(this, AddEvent.class);
-        intent.putExtra("com.example.ameerak.calendarproject_team4.addCalendar",calendar);
+        intent.putExtra("com.example.ameerak.calendarproject_team4.addCalendar", calendar);
         startActivity(intent);
     }
 
-
-
+    // Call add event to create an event
+    // To retrieve object in second Activity
+    // use getIntent().getSerializableExtra("com.example.ameerak.calendarproject_team4.editEvent");
+    /*
+    public void editEvent(GregorianCalendar calendar)
+    {
+        Intent intent = new Intent(this, EditEvent.class);
+        intent.putExtra("com.example.ameerak.calendarproject_team4.editEvent",calendar);
+        startActivity(intent);
+    }
+    */
 
 
 
