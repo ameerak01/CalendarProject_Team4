@@ -48,6 +48,7 @@ public class TextAdapter extends BaseAdapter {
         // TODO: Make this not break for month = jan
         this.prevMonthCalendar = new GregorianCalendar(calendar.get(GregorianCalendar.YEAR), prevMonth,1);
         this.lengthPreviousMonth = this.prevMonthCalendar.getActualMaximum(GregorianCalendar.DAY_OF_MONTH);
+        String stringToPrint;
 
 
         /****************************
@@ -57,29 +58,33 @@ public class TextAdapter extends BaseAdapter {
          *
          * If the day of the month is less than the day of the week then the first day of the
          * month falls within the first week, and the month started on the grid day represented
-         * by day of the month - day of the week.
+         * by day of the week - day of the month.
          *
          * The else mathematically takes the current day of the month back to the last saturday, via
-         * the same method as the previous equation, then gets the modulus of the remaining days and 7
-         * then subtracts from 7.
+         * the same method as the previous equation, then gets the modulus of the remaining days and 7.
          * */
         if(this.dayOfMonth == this.dayOfWeek) {
-            this.firstDayOfMonth = 1;
+            this.firstDayOfMonth = 0;
         }
         else if (this.dayOfMonth < this.dayOfWeek) {
-            this.firstDayOfMonth = this.dayOfMonth-this.dayOfWeek;
+            this.firstDayOfMonth = this.dayOfWeek - this.dayOfMonth;
         }
         else {
-            this.firstDayOfMonth = 7 - ((this.dayOfMonth-this.dayOfWeek)%7);
+            // Not tested as of 4/8 - NS
+            this.firstDayOfMonth = (7-this.dayOfWeek)%7;
         }
 
         // Finds the first day of the previous month that will show in the first grid position
         this.prevDaysDisplayed = this.lengthPreviousMonth - this.firstDayOfMonth;
+
+        stringToPrint = "dayOfWeek: " + Integer.toString(dayOfWeek) + ", dayOfMonth: " + Integer.toString(dayOfMonth) + ", daysInMonth: " + Integer.toString(daysInMonth) + ", prevMonth: " + Integer.toString(prevMonth) + ", lengthPreviousMonth: " + Integer.toString(lengthPreviousMonth) + ", firstDayOfMonth: " + Integer.toString(firstDayOfMonth);
+        Log.d("Set_Params_Output", stringToPrint);
     }
 
     public void notifyDataSetChanged(GregorianCalendar calendar) {
         this.calendar = null;
         this.calendar = calendar;
+        this.setParams(calendar);
         super.notifyDataSetChanged();
 
     }
@@ -98,7 +103,7 @@ public class TextAdapter extends BaseAdapter {
      */
 
     public GregorianCalendar getDate(int position) {
-        int workingPosition = position + 1, today;
+        int workingPosition = position, today;
 
         // Grid position provided is in the previous month
         if(workingPosition <= firstDayOfMonth ) {
@@ -109,7 +114,7 @@ public class TextAdapter extends BaseAdapter {
                 return new GregorianCalendar(this.calendar.get(GregorianCalendar.YEAR), this.calendar.get(GregorianCalendar.MONTH) - 1, today);
             }
             else {
-                return new GregorianCalendar(this.calendar.get(GregorianCalendar.YEAR) - 1, 12, today);
+                return new GregorianCalendar(this.calendar.get(GregorianCalendar.YEAR) - 1, 11, today);
             }
 
         }
@@ -126,7 +131,7 @@ public class TextAdapter extends BaseAdapter {
                 return new GregorianCalendar(this.calendar.get(GregorianCalendar.YEAR), this.calendar.get(GregorianCalendar.MONTH) + 1, today);
             }
             else {
-                return new GregorianCalendar(this.calendar.get(GregorianCalendar.YEAR) + 1, 1, today);
+                return new GregorianCalendar(this.calendar.get(GregorianCalendar.YEAR) + 1, 0, today);
             }
         }
     }

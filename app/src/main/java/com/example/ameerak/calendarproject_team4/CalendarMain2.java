@@ -74,7 +74,7 @@ public class CalendarMain2 extends AppCompatActivity {
                     calendar = new GregorianCalendar((calendar.get(GregorianCalendar.YEAR) - 1), 11, 1);
                 }
                 setMonth(calendar);
-                Log.d("Calender_Prev_On_Click", "Just after Set Month");
+                //Log.d("Calender_Prev_On_Click", "Just after Set Month");
             }
         });
 
@@ -91,7 +91,7 @@ public class CalendarMain2 extends AppCompatActivity {
                     calendar = new GregorianCalendar((calendar.get(calendar.YEAR) + 1), 1, 1);
                 }
                 setMonth(calendar);
-                Log.d("Calender_Next_On_Click", "Just after Set Month");
+                //Log.d("Calender_Next_On_Click", "Just after Set Month");
             }
         });
 
