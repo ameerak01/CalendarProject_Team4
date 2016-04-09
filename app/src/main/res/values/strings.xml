@@ -1,4 +1,10 @@
 <resources>
     <string name="app_name">Calendar</string>
     <string name="action_settings">Settings</string>
+    <string name="addEvent">com.example.ameerak.calendarproject_team4.addEvent</string>
+    <string name="pickEvent">com.example.ameerak.calendarproject_team4.pickEvent</string>
+    <string name="editEvent">com.example.ameerak.calendarproject_team4.editEvent</string>
+    <string name="newEvent">com.example.ameerak.calendarproject_team4.newEvent</string>
+    <string name="changedEvent">com.example.ameerak.calendarproject_team4.changedEvent</string>
+
 </resources>

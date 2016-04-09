@@ -15,6 +15,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.example.ameerak.calendarproject_team4.business_objects_layer.Event;
 import com.example.ameerak.calendarproject_team4.business_objects_layer.EventList;
 import com.example.ameerak.calendarproject_team4.controller_layer.EventController;
 import com.google.android.gms.appindexing.Action;
@@ -26,6 +27,7 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
+import java.util.LinkedList;
 
 public class CalendarMain2 extends AppCompatActivity {
     EventController eventController;
@@ -33,6 +35,12 @@ public class CalendarMain2 extends AppCompatActivity {
     public TextAdapter textAdapter;
     public ImageView prevMonth, nextMonth;
     public GregorianCalendar calendar;
+    private Event eventToBeChanged;
+
+    static final int ADD_EVENT = 0;
+    static final int EDIT_EVENT = 1;
+    static final int PICK_EVENT = 2;
+
     /**
      * ATTENTION: This was auto-generated to implement the App Indexing API.
      * See https://g.co/AppIndexing/AndroidStudio for more information.
@@ -53,9 +61,17 @@ public class CalendarMain2 extends AppCompatActivity {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 
-                // TODO: Once EventList is complete and EditEvent ad logic to call proper class
+                LinkedList eventList = eventController.getEvents(textAdapter.getDate(position));
 
-                addEvent(textAdapter.getDate(position));
+                if(eventList == null) {
+                    addEvent(textAdapter.getDate(position));
+                }
+                else if(eventList.getFirst() != eventList.getLast()) {
+                    pickEvent(eventList);
+                }
+                else {
+                    editEvent((Event) eventList.getFirst());
+                }
 
 
             }
@@ -145,10 +161,6 @@ public class CalendarMain2 extends AppCompatActivity {
 
 
         textAdapter.changeCalendar(calendar);
-        //textAdapter.notifyDataSetChanged(calendar);
-        //textAdapter.notifyDataSetChanged();
-        //gridview.setAdapter(textAdapter);
-        //invalidateViews();
 
         Log.d("Set_Month", monthString + " " + calendar.get(GregorianCalendar.YEAR));
 
@@ -157,7 +169,6 @@ public class CalendarMain2 extends AppCompatActivity {
     @Override
     public void onResume() {
         super.onResume();
-
 
 
     }
@@ -205,27 +216,77 @@ public class CalendarMain2 extends AppCompatActivity {
         client.disconnect();
     }
 
-    // Call add event to create an event
-    // To retrieve object in second Activity
-    // use getIntent().getSerializableExtra("com.example.ameerak.calendarproject_team4.addCalendar");
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent resultIntent) {
+        // Check which request we're responding to
+        if (requestCode == ADD_EVENT) {
+            Event newEvent = (Event) resultIntent.getSerializableExtra(getString(R.string.newEvent));
+            eventController.addEvent(newEvent);
+        }
+        else {
+            Event changedEvent = (Event) resultIntent.getSerializableExtra(getString(R.string.changedEvent));
+            eventController.updateEvent(changedEvent);
+        }
+        textAdapter.changeCalendar(calendar);
+    }
+
+
+    /**
+     * Call add event to create an event. To retrieve object in addEvent use the following
+     * GregorianCalendar calendar = (GregorianCalendar) getIntent().getSerializableExtra(R.string.addEvent));
+     *
+     * !!!!!!!!!!!!!!!!!!!!!!! To Return the new event !!!!!!!!!!!!!!!!!!!!!!!
+     * Intent intent = new Intent();
+     * intent.putExtra(getString(R.string.newEvent), ***The new event you made***);
+     * setResult(RESULT_OK,intent);
+     *
+     * @param calendar
+     */
     public void addEvent(GregorianCalendar calendar)
     {
         Intent intent = new Intent(this, AddEvent.class);
-        intent.putExtra("com.example.ameerak.calendarproject_team4.addCalendar", calendar);
-        startActivity(intent);
+        intent.putExtra(getString(R.string.addEvent), calendar);
+        startActivityForResult(intent, ADD_EVENT);
     }
 
-    // Call add event to create an event
-    // To retrieve object in second Activity
-    // use getIntent().getSerializableExtra("com.example.ameerak.calendarproject_team4.editEvent");
-    /*
-    public void editEvent(GregorianCalendar calendar)
+    /**
+     * Call editEvent to edit an event. To retrieve object in EditEvent use the following
+     * Event event = (Event) getIntent().getSerializableExtra(R.string.editEvent));
+     *
+     * !!!!!!!!!!!!!!!!!!!!!!! To Return the edited event !!!!!!!!!!!!!!!!!!!!!!!
+     * Intent intent = new Intent();
+     * intent.putExtra(getString(R.string.changedEvent), ***The event you edited***);
+     * setResult(RESULT_OK,intent);
+     *
+     *
+     * @param eventToBeEdited
+     */
+    public void editEvent(Event eventToBeEdited)
     {
+        eventToBeChanged = eventToBeEdited;
         Intent intent = new Intent(this, EditEvent.class);
-        intent.putExtra("com.example.ameerak.calendarproject_team4.editEvent",calendar);
-        startActivity(intent);
+        intent.putExtra(getString(R.string.editEvent),eventToBeEdited);
+        startActivityForResult(intent, EDIT_EVENT);
     }
-    */
+
+    /**
+     * Call this to start the event picker. To retrieve object in EventPicker use the following
+     *
+     * CANT PASS A LINKED LIST VIA PUTEXTRA. WILL NEED TO FIND ANOTHER WAY!
+     *
+     * !!!!!!!!!!!!!!!!!!!!!!! To Return the edited event !!!!!!!!!!!!!!!!!!!!!!!
+     * Intent intent = new Intent();
+     * intent.putExtra(getString(R.string.changedEvent), ***The event you edited***);
+     * setResult(RESULT_OK,intent);
+     *
+     * @param eventList
+     */
+    public void pickEvent(LinkedList eventList)
+    {
+        //Intent intent = new Intent(this, AddEvent.class);
+        //intent.putExtra(getString(R.string.pickEvent), eventList);
+        //startActivityForResult(intent, PICK_EVENT);
+    }
 
 
 
