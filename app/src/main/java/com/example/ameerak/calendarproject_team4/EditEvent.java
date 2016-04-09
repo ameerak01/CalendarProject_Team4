@@ -101,7 +101,7 @@ public class EditEvent extends AppCompatActivity {
                             public void onTimeSet(TimePicker timePicker, int selectedHour, int selectedMinute) {
                                 GregorianCalendar gregorianCalendar = new GregorianCalendar();
                                 gregorianCalendar.set(GregorianCalendar.HOUR_OF_DAY, selectedHour);
-                                gregorianCalendar.set(GregorianCalendar.MINUTE, selectedHour);
+                                gregorianCalendar.set(GregorianCalendar.MINUTE, selectedMinute);
                                 mEventStartTime.setText(mSdfTime.format(gregorianCalendar.getTime()));
                             }
 
@@ -128,7 +128,7 @@ public class EditEvent extends AppCompatActivity {
                     public void onTimeSet(TimePicker timePicker, int selectedHour, int selectedMinute) {
                         GregorianCalendar gregorianCalendar = new GregorianCalendar();
                         gregorianCalendar.set(GregorianCalendar.HOUR_OF_DAY, selectedHour);
-                        gregorianCalendar.set(GregorianCalendar.MINUTE, selectedHour);
+                        gregorianCalendar.set(GregorianCalendar.MINUTE, selectedMinute);
                         mEventEndTime.setText(mSdfTime.format(gregorianCalendar.getTime()));
                     }
 
