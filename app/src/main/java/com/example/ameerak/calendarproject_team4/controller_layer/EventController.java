@@ -1,12 +1,10 @@
 package com.example.ameerak.calendarproject_team4.controller_layer;
 
-import android.content.Context;
-
 import com.example.ameerak.calendarproject_team4.business_objects_layer.Event;
 import com.example.ameerak.calendarproject_team4.business_objects_layer.EventList;
 
+import java.util.ArrayList;
 import java.util.GregorianCalendar;
-import java.util.LinkedList;
 import java.util.UUID;
 
 public class EventController {
@@ -15,24 +13,25 @@ public class EventController {
 
     private EventList mEventList;
 
-    public static EventController get(Context context) {
+    public static EventController get() {
         if (sEventController == null) {
-            sEventController = new EventController(context);
+            sEventController = new EventController();
         }
         return sEventController;
     }
 
-    private EventController(Context context) {
+    private EventController() {
         mEventList = EventList.get();
     }
 
+    // Get list of events for specific date or null if no events for that date exist
     // Months go from 0-11
-    public LinkedList<Event> getEvents(int year, int month, int day) {
+    public ArrayList<Event> getEvents(int year, int month, int day) {
         return mEventList.getEvents(mEventList.createDateKey(year, month, day));
     }
 
     // Get list of events for specific date or null if no events for that date exist
-    public LinkedList<Event> getEvents(GregorianCalendar gregorianCalendar) {
+    public ArrayList<Event> getEvents(GregorianCalendar gregorianCalendar) {
         final int GET_YEAR = GregorianCalendar.YEAR;
         final int GET_MONTH = GregorianCalendar.MONTH;
         final int GET_DAY = GregorianCalendar.DAY_OF_MONTH;

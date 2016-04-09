@@ -2,18 +2,18 @@ package com.example.ameerak.calendarproject_team4.business_objects_layer;
 
 
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.Hashtable;
-import java.util.LinkedList;
 import java.util.UUID;
 
 public class EventList {
 
     private static EventList sEventList;
 
-    private Hashtable<String, LinkedList<Event>> mEvents;
+    private Hashtable<String, ArrayList<Event>> mEvents;
 
     // Only want a single event list in system
     public static EventList get() {
@@ -27,15 +27,15 @@ public class EventList {
         mEvents = new Hashtable<>();
     }
 
-    public LinkedList<Event> getEvents(String dateKey) {
+    public ArrayList<Event> getEvents(String dateKey) {
         return mEvents.get(dateKey);
     }
 
     public void addEvent(Event event) {
-        LinkedList<Event> eventList = getEvents(event.getDateKey());
+        ArrayList<Event> eventList = getEvents(event.getDateKey());
 
         if (eventList == null) {
-            eventList = new LinkedList<>();
+            eventList = new ArrayList<>();
             eventList.add(event);
         } else {
             eventList.add(event);
@@ -52,7 +52,7 @@ public class EventList {
 
     public Event getEvent(UUID eventId) {
 
-        for (LinkedList<Event> eventList : mEvents.values()){
+        for (ArrayList<Event> eventList : mEvents.values()){
             for (Event event : eventList) {
                 if (event.getEventId().equals(eventId)) {
                     return event;
@@ -64,7 +64,7 @@ public class EventList {
 
     public void deleteEvent(UUID eventId) {
 
-        for (LinkedList<Event> eventList : mEvents.values()) {
+        for (ArrayList<Event> eventList : mEvents.values()) {
             for (Event event : eventList) {
                 if (event.getEventId().equals(eventId)) {
                     eventList.remove(event);

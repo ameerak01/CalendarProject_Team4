@@ -42,8 +42,6 @@
         android:layout_height="wrap_content"
         android:layout_centerVertical="true"
         android:layout_toStartOf="@+id/event_start_time"
-        android:src="@mipmap/ic_launcher" />
-    <!-- Please Fix
-    android:src="@mipmap/ic_clock" />-->
+        android:src="@mipmap/ic_clock" />
 
 </RelativeLayout>
