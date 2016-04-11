@@ -12,6 +12,8 @@ import android.widget.GridView;
 import android.widget.ListAdapter;
 import android.widget.TextView;
 
+import com.example.ameerak.calendarproject_team4.controller_layer.EventController;
+
 import java.util.Calendar;
 import java.util.GregorianCalendar;
 
@@ -31,10 +33,12 @@ public class TextAdapter extends BaseAdapter {
     private int dayOfWeek, dayOfMonth, daysInMonth,
             firstDayOfMonth, prevMonth, lengthPreviousMonth,
             prevDaysDisplayed;
+    public EventController eventController;
 
-    public TextAdapter(Context context, GregorianCalendar calendar) {
+    public TextAdapter(Context context, GregorianCalendar calendar,EventController eventController) {
         this.context = context;
         this.calendar = calendar;
+        this.eventController = eventController;
         setParams(calendar);
 
 
@@ -103,10 +107,10 @@ public class TextAdapter extends BaseAdapter {
      */
 
     public GregorianCalendar getDate(int position) {
-        int workingPosition = position, today;
+        int workingPosition = position + 1, today;
 
         // Grid position provided is in the previous month
-        if(workingPosition <= firstDayOfMonth ) {
+        if(workingPosition <= (daysInMonth + firstDayOfMonth)) {
             today = prevDaysDisplayed + workingPosition;
 
             // Check that the previous month was not december of the previous year
@@ -172,12 +176,12 @@ public class TextAdapter extends BaseAdapter {
 
             today = workingIndex - firstDayOfMonth;
             // It is the current day, let the user now
-            if (today == dayOfMonth) {
+            if (today == dayOfMonth && today == GregorianCalendar.getInstance().get(Calendar.DAY_OF_MONTH)) {
                 tv.setTextColor(Color.BLUE);
             }
 
-            // TODO Make this check with event class to see if current day has events
-            else if (today == 9 || today == 23) {
+
+            else if (eventController.getEvents(new GregorianCalendar(this.calendar.get(GregorianCalendar.YEAR), this.calendar.get(GregorianCalendar.MONTH), today)) != null) {
                 tv.setTextColor(Color.RED);
             }
 

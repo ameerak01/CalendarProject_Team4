@@ -30,12 +30,11 @@ import java.util.GregorianCalendar;
 import java.util.LinkedList;
 
 public class CalendarMain2 extends AppCompatActivity {
-    EventController eventController;
+    EventController eventController = EventController.get();
     public GridView gridview;
     public TextAdapter textAdapter;
     public ImageView prevMonth, nextMonth;
     public GregorianCalendar calendar;
-    private Event eventToBeChanged;
 
     static final int ADD_EVENT = 0;
     static final int EDIT_EVENT = 1;
@@ -55,22 +54,22 @@ public class CalendarMain2 extends AppCompatActivity {
 
         setContentView(R.layout.activity_calendar_main2);
         gridview = (GridView) findViewById(R.id.calendar_grid);
-        textAdapter = new TextAdapter(this, calendar);
+        textAdapter = new TextAdapter(this, calendar, eventController);
         gridview.setAdapter(textAdapter);
         gridview.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 
-                LinkedList eventList = eventController.getEvents(textAdapter.getDate(position));
+                ArrayList eventList = eventController.getEvents(textAdapter.getDate(position));
 
                 if(eventList == null) {
                     addEvent(textAdapter.getDate(position));
                 }
-                else if(eventList.getFirst() != eventList.getLast()) {
+                else if(eventList.get(0) != eventList.get(eventList.size())) {
                     pickEvent(eventList);
                 }
                 else {
-                    editEvent((Event) eventList.getFirst());
+                    editEvent((Event) eventList.get(0));
                 }
 
 
@@ -85,9 +84,9 @@ public class CalendarMain2 extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 if ((calendar.get(GregorianCalendar.MONTH) + 1) > 0) {
-                    calendar = new GregorianCalendar(calendar.get(GregorianCalendar.YEAR), (calendar.get(GregorianCalendar.MONTH) - 1), 1);
+                    calendar = new GregorianCalendar(calendar.get(GregorianCalendar.YEAR), (calendar.get(GregorianCalendar.MONTH) - 1), calendar.get(GregorianCalendar.DAY_OF_MONTH));
                 } else {
-                    calendar = new GregorianCalendar((calendar.get(GregorianCalendar.YEAR) - 1), 11, 1);
+                    calendar = new GregorianCalendar((calendar.get(GregorianCalendar.YEAR) - 1), 11, calendar.get(GregorianCalendar.DAY_OF_MONTH));
                 }
                 setMonth(calendar);
                 //Log.d("Calender_Prev_On_Click", "Just after Set Month");
@@ -101,7 +100,7 @@ public class CalendarMain2 extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 if( (calendar.get(GregorianCalendar.MONTH) + 1) < 13) {
-                    calendar = new GregorianCalendar(calendar.get(GregorianCalendar.YEAR), (calendar.get(GregorianCalendar.MONTH) + 1), 1);
+                    calendar = new GregorianCalendar(calendar.get(GregorianCalendar.YEAR), (calendar.get(GregorianCalendar.MONTH) + 1), calendar.get(GregorianCalendar.DAY_OF_MONTH));
                 }
                 else {
                     calendar = new GregorianCalendar((calendar.get(calendar.YEAR) + 1), 1, 1);
@@ -220,12 +219,26 @@ public class CalendarMain2 extends AppCompatActivity {
     protected void onActivityResult(int requestCode, int resultCode, Intent resultIntent) {
         // Check which request we're responding to
         if (requestCode == ADD_EVENT) {
-            Event newEvent = (Event) resultIntent.getSerializableExtra(getString(R.string.newEvent));
-            eventController.addEvent(newEvent);
+            if(resultCode == RESULT_OK) {
+                Event newEvent = (Event) resultIntent.getSerializableExtra(getString(R.string.newEvent));
+                eventController.addEvent(newEvent);
+            }
+            else if (resultCode == RESULT_CANCELED) {
+                // Probably want to do nothing here.
+            }
+            else {
+
+            }
+        }
+        else if (requestCode == EDIT_EVENT) {
+            // If the code was not RESULT_OK do nothing
+            if(resultCode == RESULT_OK) {
+                Event changedEvent = (Event) resultIntent.getSerializableExtra(getString(R.string.changedEvent));
+                eventController.updateEvent(changedEvent);
+            }
         }
         else {
-            Event changedEvent = (Event) resultIntent.getSerializableExtra(getString(R.string.changedEvent));
-            eventController.updateEvent(changedEvent);
+            // Returned from some other event?
         }
         textAdapter.changeCalendar(calendar);
     }
@@ -244,7 +257,7 @@ public class CalendarMain2 extends AppCompatActivity {
      */
     public void addEvent(GregorianCalendar calendar)
     {
-        Intent intent = new Intent(this, AddEvent.class);
+        Intent intent = new Intent(this, AddEvent_New.class);
         intent.putExtra(getString(R.string.addEvent), calendar);
         startActivityForResult(intent, ADD_EVENT);
     }
@@ -263,7 +276,6 @@ public class CalendarMain2 extends AppCompatActivity {
      */
     public void editEvent(Event eventToBeEdited)
     {
-        eventToBeChanged = eventToBeEdited;
         Intent intent = new Intent(this, EditEvent.class);
         intent.putExtra(getString(R.string.editEvent),eventToBeEdited);
         startActivityForResult(intent, EDIT_EVENT);
@@ -281,7 +293,7 @@ public class CalendarMain2 extends AppCompatActivity {
      *
      * @param eventList
      */
-    public void pickEvent(LinkedList eventList)
+    public void pickEvent(ArrayList eventList)
     {
         //Intent intent = new Intent(this, AddEvent.class);
         //intent.putExtra(getString(R.string.pickEvent), eventList);
