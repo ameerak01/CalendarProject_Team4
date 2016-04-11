@@ -65,7 +65,7 @@ public class CalendarMain2 extends AppCompatActivity {
                 if(eventList == null) {
                     addEvent(textAdapter.getDate(position));
                 }
-                else if(eventList.get(0) != eventList.get(eventList.size())) {
+                else if(eventList.size() > 1) {
                     pickEvent(eventList);
                 }
                 else {

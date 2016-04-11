@@ -47,10 +47,7 @@ public class EditEvent extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_edit_event);
 
-        if (savedInstanceState != null) {
-            mEvent = (Event) savedInstanceState
-                    .getSerializable(getString(R.string.editEvent));
-        }
+        mEvent = (Event) getIntent().getSerializableExtra(getString(R.string.editEvent));
 
         mStartTime = mEvent.getEventStartTime();
         mEndTime = mEvent.getEventEndTime();
