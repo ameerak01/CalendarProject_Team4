@@ -199,6 +199,13 @@ public class EditEvent extends AppCompatActivity {
                 EditEvent.this.finish();
                 return true;
 
+            case R.id.menu_item_share_event:
+                Intent sendIntent = new Intent();
+                sendIntent.setAction(Intent.ACTION_SEND);
+                sendIntent.putExtra(Intent.EXTRA_TEXT, mEvent.toString());
+                sendIntent.setType("text/plain");
+                startActivity(sendIntent);
+
             default:
                 return super.onOptionsItemSelected(item);
         }

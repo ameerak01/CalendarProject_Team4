@@ -5,6 +5,7 @@ import android.support.annotation.NonNull;
 
 import java.io.Serializable;
 import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.GregorianCalendar;
 import java.util.UUID;
 
@@ -81,5 +82,14 @@ public class Event implements Serializable, Comparable<Event> {
 
     public void setDescription(String description) {
         mDescription = description;
+    }
+
+    public String toString() {
+        String output;
+        SimpleDateFormat mSdfParser = new SimpleDateFormat("MMMM d, yyyy h:mm a");
+
+        output = "Event: " + mTitle + "\nDescription: " + mDescription +"\nStart: " + mSdfParser.format(mEventStartTime.getTime()) + "\n";
+        output = output + "End: " + mSdfParser.format(mEventEndTime.getTime()) + "\nLocation: " + mLocation + "\n";
+        return output;
     }
 }
