@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -179,13 +180,13 @@ public class AddEvent_New extends AppCompatActivity {
 
                 // Times that are displayed are used to update event
                 try {
-                    mStartTime.setTime(mSdfParser.parse(mEventDate + " " + mEventStartTime));
-                    mEndTime.setTime(mSdfParser.parse(mEventDate + " " + mEventEndTime));
+                    mStartTime.setTime(mSdfParser.parse(mEventDate.getText().toString() + " " + mEventStartTime.getText().toString()));
+                    mEndTime.setTime(mSdfParser.parse(mEventDate.getText().toString() + " " + mEventEndTime.getText().toString()));
                 } catch (ParseException e) {
                     e.printStackTrace();
                 }
                 mEvent.setEventStartTime(mStartTime);
-                mEvent.setEventStartTime(mEndTime);
+                mEvent.setEventEndTime(mEndTime);
 
                 mEvent.setLocation(mEventLocation.getText().toString());
                 mEvent.setDescription(mEventDescription.getText().toString());

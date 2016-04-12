@@ -5,6 +5,7 @@ import android.app.TimePickerDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -18,6 +19,7 @@ import com.example.ameerak.calendarproject_team4.business_objects_layer.Event;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.GregorianCalendar;
 
 public class EditEvent extends AppCompatActivity {
@@ -160,15 +162,17 @@ public class EditEvent extends AppCompatActivity {
                     mEvent.setTitle(mEventTitle.getText().toString());
                 }
 
+
                 // Times that are displayed are used to update event
                 try {
-                    mStartTime.setTime(mSdfParser.parse(mEventDate + " " + mEventStartTime));
-                    mEndTime.setTime(mSdfParser.parse(mEventDate + " " + mEventEndTime));
+                    mStartTime.setTime(mSdfParser.parse(mEventDate.getText().toString() + " " + mEventStartTime.getText().toString()));
+                    mEndTime.setTime(mSdfParser.parse(mEventDate.getText().toString() + " " + mEventEndTime.getText().toString()));
                 } catch (ParseException e) {
                     e.printStackTrace();
+                    Log.d("saveEvent", "Wut?");
                 }
                 mEvent.setEventStartTime(mStartTime);
-                mEvent.setEventStartTime(mEndTime);
+                mEvent.setEventEndTime(mEndTime);
 
                 mEvent.setLocation(mEventLocation.getText().toString());
                 mEvent.setDescription(mEventDescription.getText().toString());

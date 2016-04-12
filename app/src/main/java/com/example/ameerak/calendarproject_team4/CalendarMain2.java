@@ -262,8 +262,10 @@ public class CalendarMain2 extends AppCompatActivity {
      *
      * @param calendar
      */
-    public void addEvent(GregorianCalendar calendar)
-    {
+    public void addEvent(GregorianCalendar calendar) {
+        Calendar now = Calendar.getInstance();
+        calendar.set(Calendar.HOUR_OF_DAY, now.get(Calendar.HOUR));
+        calendar.set(Calendar.MINUTE, now.get(Calendar.MINUTE));
         Intent intent = new Intent(this, AddEvent_New.class);
         intent.putExtra(getString(R.string.addEvent), calendar);
         startActivityForResult(intent, ADD_EVENT);
