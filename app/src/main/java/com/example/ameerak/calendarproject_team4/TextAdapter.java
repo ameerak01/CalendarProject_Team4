@@ -85,14 +85,6 @@ public class TextAdapter extends BaseAdapter {
         Log.d("Set_Params_Output", stringToPrint);
     }
 
-    public void notifyDataSetChanged(GregorianCalendar calendar) {
-        this.calendar = null;
-        this.calendar = calendar;
-        this.setParams(calendar);
-        super.notifyDataSetChanged();
-
-    }
-
     public int getCount() {
         return 42;
     }
@@ -176,13 +168,17 @@ public class TextAdapter extends BaseAdapter {
 
             today = workingIndex - firstDayOfMonth;
             // It is the current day, let the user now
-            if (today == dayOfMonth && today == GregorianCalendar.getInstance().get(Calendar.DAY_OF_MONTH)) {
+            if (today == dayOfMonth && today == GregorianCalendar.getInstance().get(Calendar.DAY_OF_MONTH) && calendar.get(Calendar.MONTH) == GregorianCalendar.getInstance().get(Calendar.MONTH)) {
                 tv.setTextColor(Color.BLUE);
             }
 
 
             else if (eventController.getEvents(new GregorianCalendar(this.calendar.get(GregorianCalendar.YEAR), this.calendar.get(GregorianCalendar.MONTH), today)) != null) {
                 tv.setTextColor(Color.RED);
+                //Event list may return an empty array for days that had events deleted
+                if(eventController.getEvents(new GregorianCalendar(this.calendar.get(GregorianCalendar.YEAR), this.calendar.get(GregorianCalendar.MONTH), today)).size() == 0) {
+                    tv.setTextColor(Color.DKGRAY);
+                }
             }
 
             // Normal day without events

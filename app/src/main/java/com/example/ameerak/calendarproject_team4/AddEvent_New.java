@@ -199,14 +199,6 @@ public class AddEvent_New extends AppCompatActivity {
             // Send unmodified event back
             case R.id.menu_item_cancel:
                 intent.putExtra(getString(R.string.newEvent), mEvent);
-                setResult(RESULT_OK, intent);
-
-                AddEvent_New.this.finish();
-                return true;
-
-            // Send event back to be deleted
-            case R.id.menu_item_delete_event:
-                intent.putExtra(getString(R.string.newEvent), mEvent);
                 setResult(RESULT_CANCELED, intent);
 
                 AddEvent_New.this.finish();

@@ -65,6 +65,10 @@ public class CalendarMain2 extends AppCompatActivity {
                 if(eventList == null) {
                     addEvent(textAdapter.getDate(position));
                 }
+                //Event list may return an empty array for days that had events deleted
+                else if(eventList.size() == 0) {
+                    addEvent(textAdapter.getDate(position));
+                }
                 else if(eventList.size() > 1) {
                     pickEvent(eventList);
                 }
@@ -170,6 +174,7 @@ public class CalendarMain2 extends AppCompatActivity {
         super.onResume();
 
 
+
     }
 
 
@@ -219,16 +224,12 @@ public class CalendarMain2 extends AppCompatActivity {
     protected void onActivityResult(int requestCode, int resultCode, Intent resultIntent) {
         // Check which request we're responding to
         if (requestCode == ADD_EVENT) {
+            // If result not ok do nothing
             if(resultCode == RESULT_OK) {
                 Event newEvent = (Event) resultIntent.getSerializableExtra(getString(R.string.newEvent));
                 eventController.addEvent(newEvent);
             }
-            else if (resultCode == RESULT_CANCELED) {
-                // Probably want to do nothing here.
-            }
-            else {
 
-            }
         }
         else if (requestCode == EDIT_EVENT) {
             // If the code was not RESULT_OK do nothing
@@ -236,12 +237,18 @@ public class CalendarMain2 extends AppCompatActivity {
                 Event changedEvent = (Event) resultIntent.getSerializableExtra(getString(R.string.changedEvent));
                 eventController.updateEvent(changedEvent);
             }
+            // Else it was a delete code
+            else {
+                Event changedEvent = (Event) resultIntent.getSerializableExtra(getString(R.string.changedEvent));
+                eventController.deleteEvent(changedEvent.getEventId());
+            }
         }
         else {
-            // Returned from some other event?
         }
         textAdapter.changeCalendar(calendar);
     }
+
+
 
 
     /**
