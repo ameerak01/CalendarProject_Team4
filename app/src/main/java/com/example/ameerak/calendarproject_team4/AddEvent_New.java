@@ -114,6 +114,7 @@ public class AddEvent_New extends AppCompatActivity {
                                 mEventStartTime.setText(mSdfTime.format(calendar.getTime()));
                             }
                         }, hour, minute, false);
+
                 timePicker.show();
             }
         });
@@ -156,7 +157,7 @@ public class AddEvent_New extends AppCompatActivity {
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.edit_event_menu, menu);
+        getMenuInflater().inflate(R.menu.add_event_menu, menu);
         return super.onCreateOptionsMenu(menu);
     }
 
@@ -167,7 +168,7 @@ public class AddEvent_New extends AppCompatActivity {
         switch (item.getItemId()) {
 
             // Send updated event back
-            case R.id.menu_item_save_event:
+            case R.id.menu_item_add_event:
 
                 // If event title field empty then default value set
                 if (mEventTitle.getText().toString().length() == 0) {
