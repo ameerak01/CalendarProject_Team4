@@ -244,6 +244,7 @@ public class CalendarMain2 extends AppCompatActivity {
             }
         }
         else {
+
         }
         textAdapter.changeCalendar(calendar);
     }
@@ -304,7 +305,7 @@ public class CalendarMain2 extends AppCompatActivity {
      */
     public void pickEvent(ArrayList eventList)
     {
-        //Intent intent = new Intent(this, AddEvent.class);
+        //Intent intent = new Intent(this, SelectEvent.class);
         //intent.putExtra(getString(R.string.pickEvent), eventList);
         //startActivityForResult(intent, PICK_EVENT);
     }
