@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="title">Title</string>
+    <string name="date">Sat, April 16, 2016</string>
+    <string name="start">START</string>
+    <string name="start_time">1:00 PM</string>
+    <string name="end">END</string>
+    <string name="end_time">2:00 PM</string>
+    <string name="location">Location</string>
+    <string name="description">Description</string>
+    <string name="share">Share</string>
+
+</resources>

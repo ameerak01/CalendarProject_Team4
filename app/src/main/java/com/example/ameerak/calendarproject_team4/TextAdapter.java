@@ -138,11 +138,11 @@ public class TextAdapter extends BaseAdapter {
     public View getView(int position, View convertView, ViewGroup parent) {
         TextView tv;
         /**
-        * Today is number that will end up printed in the grid.
-        * Working index is position plus 1, as the grid is 0
-        * indexed. This was done to make dealing with dates
-        * more readable as they are not 0 indexed.
-        */
+         * Today is number that will end up printed in the grid.
+         * Working index is position plus 1, as the grid is 0
+         * indexed. This was done to make dealing with dates
+         * more readable as they are not 0 indexed.
+         */
         int today, workingIndex = position + 1;
 
         // Auto generated stuff

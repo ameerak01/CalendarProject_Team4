@@ -11,11 +11,4 @@
         android:id="@+id/menu_item_cancel"
         android:title="Cancel"
         app:showAsAction="ifRoom|withText" />
-
-    <!--<item
-        android:id="@+id/menu_item_delete_event"
-        android:icon="@mipmap/ic_delete"
-        android:title="Delete Event"
-        app:showAsAction="ifRoom|withText" />-->
-
 </menu>

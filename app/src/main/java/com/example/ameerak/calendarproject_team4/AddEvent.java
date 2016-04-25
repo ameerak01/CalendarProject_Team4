@@ -1,53 +1,254 @@
 package com.example.ameerak.calendarproject_team4;
 
+import android.app.DatePickerDialog;
+import android.app.TimePickerDialog;
 import android.content.Intent;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.DatePicker;
+import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.TimePicker;
 
 import com.example.ameerak.calendarproject_team4.business_objects_layer.Event;
 
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
-import java.util.Date;
 import java.util.GregorianCalendar;
 
 public class AddEvent extends AppCompatActivity {
 
+    private EditText mEventTitle;
+    private TextView mEventDate;
+    private TextView mEventStartTime;
+    private TextView mEventEndTime;
+    private EditText mEventLocation;
+    private EditText mEventDescription;
+    private EditText mShareEvent;
+
+    // Formatting specifications (Ex. Fri, April 8, 2016)
+    private final SimpleDateFormat mSdfDate = new SimpleDateFormat("EEE, MMMM d, yyyy");
+    // Formatting specifications (Ex. 9:45 AM)
+    private final SimpleDateFormat mSdfTime = new SimpleDateFormat("h:mm a");
+    // Text parser (April 8, 2016 9:45 AM) --> Date (Object)
+    private final SimpleDateFormat mSdfParser = new SimpleDateFormat("EEE, MMMM d, yyyy h:mm a");
+
+    private GregorianCalendar mStartTime;
+    private GregorianCalendar mEndTime;
+
+    private Event mEvent;
+
+    @SuppressWarnings("all")
     @Override
-    protected void onCreate(Bundle savedInstanceState)
-    {
+    protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_add_event);
+        setContentView(R.layout.activity_edit_event);
 
-        GregorianCalendar c = new GregorianCalendar();
-        GregorianCalendar endtime = new GregorianCalendar();
-        //SimpleDateFormat ss = new SimpleDateFormat("dd-MM-yyyy");
-        //DatePicker datepick = (DatePicker) this.findViewById(R.id.datePicker_main);
-        //String dateString= ss.format(datepick);
-        TextView date_text = (TextView) this.findViewById(R.id.date_editText);
-        TextView event_text = (TextView) this.findViewById(R.id.event_editText);
-        TextView location_text = (TextView) this.findViewById(R.id.location_editText);
-        TextView description_text = (TextView) this.findViewById(R.id.description_editText);
+        mEvent = new Event();
+        GregorianCalendar calendar =
+                (GregorianCalendar) getIntent().getSerializableExtra(getString(R.string.addEvent));
 
-        // To set the text as the date like MM/DD/YEAR
-        date_text.setText(c.get(Calendar.MONTH) + "/" + c.get(Calendar.DAY_OF_MONTH) + "/" + c.get(Calendar.YEAR));
-       // editText.setText("Hello");
+        GregorianCalendar startTime = (GregorianCalendar) calendar.clone();
+        startTime.set(Calendar.HOUR_OF_DAY, 13);
+        startTime.set(Calendar.MINUTE, 0);
 
-        // To set the text as the time
-       // editText.setText(datepick.getHours() + ":" + datepick.getMinutes());
+        GregorianCalendar endTime = (GregorianCalendar) calendar.clone();
+        endTime.set(Calendar.HOUR_OF_DAY, 14);
+        endTime.set(Calendar.MINUTE, 0);
 
-        Event event = new Event(event_text.toString(), c,endtime, location_text.toString(), description_text.toString());
+        mEvent.setEventStartTime(startTime);
+        mEvent.setEventEndTime(endTime);
 
-        getIntent().getSerializableExtra("com.example.ameerak.calendarproject_team4.AddEvent");
+        mStartTime = mEvent.getEventStartTime();
+        mEndTime = mEvent.getEventEndTime();
 
+        mEventTitle =
+                (EditText) findViewById(R.id.event_title);
+        mEventTitle.setText(mEvent.getTitle());
+
+        mEventDate =
+                (TextView) findViewById(R.id.event_date);
+        mEventDate.setText(mSdfDate.format(mStartTime.getTime()));
+        // DatePicker dialog for user to change event date
+        mEventDate.setOnClickListener(new View.OnClickListener() {
+
+            @Override
+            public void onClick(View v) {
+                int year = mStartTime.get(Calendar.YEAR);
+                int month = mStartTime.get(Calendar.MONTH);
+                int day = mStartTime.get(Calendar.DAY_OF_MONTH);
+
+                DatePickerDialog datePickerDialog = new DatePickerDialog(AddEvent.this,
+                        new DatePickerDialog.OnDateSetListener() {
+                            @Override
+                            public void onDateSet(DatePicker view, int year,
+                                                  int monthOfYear, int dayOfMonth) {
+                                Calendar calendar = Calendar.getInstance();
+                                calendar.set(year, monthOfYear, dayOfMonth);
+                                mEventDate.setText(mSdfDate.format(calendar.getTime()));
+                                updateTime();
+                            }
+                        }, year, month, day);
+                datePickerDialog.show();
+            }
+        });
+
+        mEventStartTime =
+                (TextView) findViewById(R.id.event_start_time);
+        mEventStartTime.setText(mSdfTime.format(mStartTime.getTime()));
+        // TimePicker dialog for user to change event start time
+        mEventStartTime.setOnClickListener(new View.OnClickListener() {
+
+            @Override
+            public void onClick(View v) {
+
+                int hour = mStartTime.get(Calendar.HOUR_OF_DAY);
+                int minute = mStartTime.get(Calendar.MINUTE);
+
+                TimePickerDialog timePicker = new TimePickerDialog(AddEvent.this,
+                        new TimePickerDialog.OnTimeSetListener() {
+
+                            @Override
+                            public void onTimeSet(TimePicker timePicker, int selectedHour, int selectedMinute) {
+                                Calendar calendar = Calendar.getInstance();
+                                calendar.set(Calendar.HOUR_OF_DAY, selectedHour);
+                                calendar.set(Calendar.MINUTE, selectedMinute);
+                                mEventStartTime.setText(mSdfTime.format(calendar.getTime()));
+                                updateTime();
+                            }
+                        }, hour, minute, false);
+                timePicker.show();
+            }
+        });
+
+        mEventEndTime =
+                (TextView) findViewById(R.id.event_end_time);
+        mEventEndTime.setText(mSdfTime.format(mEndTime.getTime()));
+        // TimePicker dialog for user to change event end time
+        mEventEndTime.setOnClickListener(new View.OnClickListener() {
+
+            @Override
+            public void onClick(View v) {
+
+                int hour = mEndTime.get(Calendar.HOUR_OF_DAY);
+                int minute = mEndTime.get(Calendar.MINUTE);
+
+                TimePickerDialog timePicker = new TimePickerDialog(AddEvent.this,
+                        new TimePickerDialog.OnTimeSetListener() {
+                            @Override
+                            public void onTimeSet(TimePicker timePicker, int selectedHour, int selectedMinute) {
+                                Calendar calendar = Calendar.getInstance();
+                                calendar.set(Calendar.HOUR_OF_DAY, selectedHour);
+                                calendar.set(Calendar.MINUTE, selectedMinute);
+                                mEventEndTime.setText(mSdfTime.format(calendar.getTime()));
+                                updateTime();
+                            }
+                        }, hour, minute, false);
+                timePicker.show();
+            }
+        });
+
+
+        mEventLocation =
+                (EditText) findViewById(R.id.event_location);
+        mEventLocation.setText(mEvent.getLocation());
+
+        mEventDescription =
+                (EditText) findViewById(R.id.event_description);
+        mEventDescription.setText(mEvent.getDescription());
+
+        mShareEvent =
+                (EditText) findViewById(R.id.event_share);
+        mShareEvent.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent sendIntent = new Intent();
+                sendIntent.setAction(Intent.ACTION_SEND);
+                sendIntent.putExtra(Intent.EXTRA_TEXT, savedEvent().toString());
+                sendIntent.setType("text/plain");
+                startActivity(sendIntent);
+            }
+        });
     }
 
-    public void goToShareView(View v)
-    {
-        startActivity(new Intent(this, ShareEvent.class));
+    private void updateTime() {
+        try {
+            mStartTime.setTime(mSdfParser.parse(mEventDate.getText().toString() + " " + mEventStartTime.getText().toString()));
+            mEndTime.setTime(mSdfParser.parse(mEventDate.getText().toString() + " " + mEventEndTime.getText().toString()));
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
     }
 
+    // Create a temporary event for share
+    private Event savedEvent() {
+        Event savedEvent = new Event();
+
+        // If event title field empty then default value set
+        if (mEventTitle.getText().toString().length() == 0) {
+            savedEvent.setTitle("(No Title)");
+        } else {
+            savedEvent.setTitle(mEventTitle.getText().toString());
+        }
+
+        // Times that are displayed used to update event
+        savedEvent.setEventStartTime(mStartTime);
+        savedEvent.setEventEndTime(mEndTime);
+
+        savedEvent.setLocation(mEventLocation.getText().toString());
+        savedEvent.setDescription(mEventDescription.getText().toString());
+
+        return savedEvent;
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.add_event_menu, menu);
+        return super.onCreateOptionsMenu(menu);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        Intent intent = new Intent();
+
+        switch (item.getItemId()) {
+
+            // Send updated event back
+            case R.id.menu_item_add_event:
+
+                // If event title field empty then default value set
+                if (mEventTitle.getText().toString().length() == 0) {
+                    mEvent.setTitle("(No Title)");
+                } else {
+                    mEvent.setTitle(mEventTitle.getText().toString());
+                }
+
+                // Times that are displayed used to update event
+                mEvent.setEventStartTime(mStartTime);
+                mEvent.setEventEndTime(mEndTime);
+
+                mEvent.setLocation(mEventLocation.getText().toString());
+                mEvent.setDescription(mEventDescription.getText().toString());
+
+                intent.putExtra(getString(R.string.newEvent), mEvent);
+                setResult(RESULT_OK, intent);
+
+                AddEvent.this.finish();
+                return true;
+
+            // Send unmodified event back
+            case R.id.menu_item_cancel:
+                intent.putExtra(getString(R.string.newEvent), mEvent);
+                setResult(RESULT_CANCELED, intent);
+
+                AddEvent.this.finish();
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
+    }
 }

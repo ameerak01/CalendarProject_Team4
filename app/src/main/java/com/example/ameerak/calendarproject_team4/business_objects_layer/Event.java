@@ -11,12 +11,25 @@ import java.util.UUID;
 
 public class Event implements Serializable, Comparable<Event> {
 
+    private final SimpleDateFormat mSdfParser = new SimpleDateFormat("MMMM d, yyyy h:mm a");
+
     private UUID mEventId;
     private String mTitle;
     private GregorianCalendar mEventStartTime;
     private GregorianCalendar mEventEndTime;
     private String mLocation;
     private String mDescription;
+
+    public Event() {
+        mEventId = UUID.randomUUID();
+        mTitle = "";
+        mEventStartTime =
+                (GregorianCalendar) Calendar.getInstance();
+        mEventEndTime =
+                (GregorianCalendar) Calendar.getInstance();
+        mLocation = "";
+        mDescription = "";
+    }
 
     public Event(String title, GregorianCalendar eventStartTime, GregorianCalendar eventEndTime,
                  String location, String description) {
@@ -53,7 +66,7 @@ public class Event implements Serializable, Comparable<Event> {
     }
 
     public GregorianCalendar getEventStartTime() {
-        return mEventStartTime;
+        return (GregorianCalendar) mEventStartTime.clone();
     }
 
     public void setEventStartTime(GregorianCalendar eventStartTime) {
@@ -61,7 +74,7 @@ public class Event implements Serializable, Comparable<Event> {
     }
 
     public GregorianCalendar getEventEndTime() {
-        return mEventEndTime;
+        return (GregorianCalendar) mEventEndTime.clone();
     }
 
     public void setEventEndTime(GregorianCalendar eventEndTime) {
@@ -85,11 +98,11 @@ public class Event implements Serializable, Comparable<Event> {
     }
 
     public String toString() {
-        String output;
-        SimpleDateFormat mSdfParser = new SimpleDateFormat("MMMM d, yyyy h:mm a");
-
-        output = "Event: " + mTitle + "\nDescription: " + mDescription +"\nStart: " + mSdfParser.format(mEventStartTime.getTime()) + "\n";
-        output = output + "End: " + mSdfParser.format(mEventEndTime.getTime()) + "\nLocation: " + mLocation + "\n";
-        return output;
+        return String.format("Event %s%nStart: %s%n  End: %s%nLocation: %s%nDescription: %s",
+                getTitle(),
+                mSdfParser.format(getEventStartTime().getTime()),
+                mSdfParser.format(getEventEndTime().getTime()),
+                getLocation(),
+                getDescription());
     }
 }

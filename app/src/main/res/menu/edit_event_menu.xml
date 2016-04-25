@@ -17,9 +17,4 @@
         android:icon="@mipmap/ic_delete"
         android:title="Delete Event"
         app:showAsAction="ifRoom|withText" />
-    <item
-        android:id="@+id/menu_item_share_event"
-        android:title="Share Event"
-        app:showAsAction="ifRoom|withText" />
-
 </menu>

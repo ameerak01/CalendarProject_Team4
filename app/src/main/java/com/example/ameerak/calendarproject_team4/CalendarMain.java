@@ -1,35 +1,27 @@
 package com.example.ameerak.calendarproject_team4;
 
-import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.GridView;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.example.ameerak.calendarproject_team4.business_objects_layer.Event;
-import com.example.ameerak.calendarproject_team4.business_objects_layer.EventList;
 import com.example.ameerak.calendarproject_team4.controller_layer.EventController;
 import com.google.android.gms.appindexing.Action;
 import com.google.android.gms.appindexing.AppIndex;
 import com.google.android.gms.common.api.GoogleApiClient;
 
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.Date;
 import java.util.GregorianCalendar;
-import java.util.LinkedList;
 
-public class CalendarMain2 extends AppCompatActivity {
+public class CalendarMain extends AppCompatActivity {
     EventController eventController = EventController.get();
     public GridView gridview;
     public TextAdapter textAdapter;
@@ -52,7 +44,7 @@ public class CalendarMain2 extends AppCompatActivity {
 
         calendar = (GregorianCalendar) GregorianCalendar.getInstance();
 
-        setContentView(R.layout.activity_calendar_main2);
+        setContentView(R.layout.activity_calendar_main);
         gridview = (GridView) findViewById(R.id.calendar_grid);
         textAdapter = new TextAdapter(this, calendar, eventController);
         gridview.setAdapter(textAdapter);
@@ -238,9 +230,13 @@ public class CalendarMain2 extends AppCompatActivity {
                 eventController.updateEvent(changedEvent);
             }
             // Else it was a delete code
-            else {
-                Event changedEvent = (Event) resultIntent.getSerializableExtra(getString(R.string.changedEvent));
-                eventController.deleteEvent(changedEvent.getEventId());
+            else if (resultCode == RESULT_CANCELED){
+                if (resultIntent == null) {
+                    // Do nothing if user clicked back on editEvent
+                } else {
+                    Event changedEvent = (Event) resultIntent.getSerializableExtra(getString(R.string.changedEvent));
+                    eventController.deleteEvent(changedEvent.getEventId());
+                }
             }
         }
         else {
@@ -267,7 +263,7 @@ public class CalendarMain2 extends AppCompatActivity {
         Calendar now = Calendar.getInstance();
         calendar.set(Calendar.HOUR_OF_DAY, now.get(Calendar.HOUR));
         calendar.set(Calendar.MINUTE, now.get(Calendar.MINUTE));
-        Intent intent = new Intent(this, AddEvent_New.class);
+        Intent intent = new Intent(this, AddEvent.class);
         intent.putExtra(getString(R.string.addEvent), calendar);
         startActivityForResult(intent, ADD_EVENT);
     }
