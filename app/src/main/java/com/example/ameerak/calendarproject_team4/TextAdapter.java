@@ -74,8 +74,7 @@ public class TextAdapter extends BaseAdapter {
             this.firstDayOfMonth = this.dayOfWeek - this.dayOfMonth;
         }
         else {
-            // Not tested as of 4/8 - NS
-            this.firstDayOfMonth = (7-this.dayOfWeek)%7;
+            this.firstDayOfMonth = 7 - ((this.dayOfMonth - this.dayOfWeek)%7);
         }
 
         // Finds the first day of the previous month that will show in the first grid position
