@@ -5,6 +5,8 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.GridView;
@@ -304,6 +306,28 @@ public class CalendarMain extends AppCompatActivity {
         //Intent intent = new Intent(this, SelectEvent.class);
         //intent.putExtra(getString(R.string.pickEvent), eventList);
         //startActivityForResult(intent, PICK_EVENT);
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.calendar_main_menu, menu);
+        return super.onCreateOptionsMenu(menu);
+    }
+
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        Intent intent = new Intent();
+
+        switch (item.getItemId()) {
+
+            // Send updated event back
+            case R.id.menu_item_add_event:
+
+                // do stuff
+            default:
+                return super.onOptionsItemSelected(item);
+        }
     }
 
 
