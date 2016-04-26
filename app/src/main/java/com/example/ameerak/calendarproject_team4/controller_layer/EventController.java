@@ -59,4 +59,9 @@ public class EventController {
     public void deleteEvent(UUID eventId) { 
         mEventList.deleteEvent(eventId);
     }
+
+    // Returns a list of 0 or more events with matching titles (Ignores case)
+    public ArrayList<Event> searchEvent(String eventTitle) {
+        return mEventList.searchEvent(eventTitle);
+    }
 }

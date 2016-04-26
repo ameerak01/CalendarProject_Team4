@@ -74,6 +74,20 @@ public class EventList {
         }
     }
 
+    public ArrayList<Event> searchEvent(String eventTitle) {
+        ArrayList<Event> searchedEvents = new ArrayList<>();
+
+        for (ArrayList<Event> eventList : mEvents.values()) {
+            for (Event event : eventList) {
+                if (event.getTitle().equalsIgnoreCase(eventTitle)) {
+                    searchedEvents.add(event);
+                }
+            }
+        }
+
+        return searchedEvents;
+    }
+
     @SuppressWarnings("all")
     public String createDateKey(int year, int month, int day) {
         GregorianCalendar calendar = new GregorianCalendar();

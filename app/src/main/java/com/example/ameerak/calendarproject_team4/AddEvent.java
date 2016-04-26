@@ -71,7 +71,7 @@ public class AddEvent extends AppCompatActivity {
         mEventTitle.setText(mEvent.getTitle());
 
         mEventDate =
-                (TextView) findViewById(R.id.event_date);
+                (TextView) findViewById(R.id.event_name);
         mEventDate.setText(mSdfDate.format(mStartTime.getTime()));
         // DatePicker dialog for user to change event date
         mEventDate.setOnClickListener(new View.OnClickListener() {

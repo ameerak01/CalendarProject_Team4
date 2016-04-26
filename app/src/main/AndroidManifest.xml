@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.example.ameerak.calendarproject_team4">
+<manifest package="com.example.ameerak.calendarproject_team4"
+    xmlns:android="http://schemas.android.com/apk/res/android">
 
     <application
         android:allowBackup="true"
@@ -28,6 +28,7 @@
         </activity>
         <activity android:name=".EditEvent" />
         <activity android:name=".AddEvent" />
+        <activity android:name=".ListEvents"></activity>
     </application>
 
 </manifest>
