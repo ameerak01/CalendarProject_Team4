@@ -7,9 +7,9 @@
     android:layout_height="match_parent">
     <item
         android:id="@+id/search"
-        android:actionViewClass="android.widget.SearchView"
+        app:actionViewClass="android.widget.SearchView"
         android:icon="@drawable/ic_search_white_24dp"
-        app:showAsAction="ifRoom|withText"
+        app:showAsAction="ifRoom|collapseActionView"
         android:title="@string/search_label"
         android:layout_width="match_parent"
         android:layout_height="match_parent" />

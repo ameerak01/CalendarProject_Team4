@@ -1,5 +1,8 @@
 package com.example.ameerak.calendarproject_team4;
 
+import android.app.SearchManager;
+import android.content.ComponentName;
+import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
@@ -11,6 +14,7 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.GridView;
 import android.widget.ImageView;
+import android.widget.SearchView;
 import android.widget.TextView;
 
 import com.example.ameerak.calendarproject_team4.business_objects_layer.Event;
@@ -94,13 +98,12 @@ public class CalendarMain extends AppCompatActivity {
 
 
        nextMonth = (ImageView) findViewById(R.id.calendar_next_button);
-        nextMonth.setOnClickListener( new View.OnClickListener() {
+        nextMonth.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if( (calendar.get(GregorianCalendar.MONTH) + 1) < 13) {
+                if ((calendar.get(GregorianCalendar.MONTH) + 1) < 13) {
                     calendar = new GregorianCalendar(calendar.get(GregorianCalendar.YEAR), (calendar.get(GregorianCalendar.MONTH) + 1), calendar.get(GregorianCalendar.DAY_OF_MONTH));
-                }
-                else {
+                } else {
                     calendar = new GregorianCalendar((calendar.get(calendar.YEAR) + 1), 1, 1);
                 }
                 setMonth(calendar);
@@ -311,23 +314,13 @@ public class CalendarMain extends AppCompatActivity {
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.calendar_main_menu, menu);
-        return super.onCreateOptionsMenu(menu);
-    }
+
+        SearchManager searchManager = (SearchManager) getSystemService(Context.SEARCH_SERVICE);
+        SearchView searchView = (SearchView) menu.findItem(R.id.search).getActionView();
+        searchView.setSearchableInfo(searchManager.getSearchableInfo(new ComponentName(this, ListEvents.class)));
 
 
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        Intent intent = new Intent();
-
-        switch (item.getItemId()) {
-
-            // Send updated event back
-            case R.id.menu_item_add_event:
-
-                // do stuff
-            default:
-                return super.onOptionsItemSelected(item);
-        }
+        return true;
     }
 
 
